@@ -1,0 +1,9 @@
+.description {
+    margin-top: 100px;
+}
+
+.description h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: sans-serif;
+}

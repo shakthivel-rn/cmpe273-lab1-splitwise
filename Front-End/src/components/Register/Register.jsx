@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../../App.css';
+import './Register.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
 class Register extends Component {
   constructor(props) {
@@ -47,32 +49,26 @@ class Register extends Component {
   }
 
   render() {
-    let redirectPage = null;
     const { redirectFlag } = this.state;
-    if (redirectFlag) {
-      redirectPage = <Redirect to="/login" />;
-    }
     return (
       <div>
-        {redirectPage}
+        {redirectFlag ? <Redirect to="/login" /> : null}
         <div className="container">
-          <form method="post" onSubmit={this.submitRegister}>
+          <Form id="signup-form" method="post" onSubmit={this.submitRegister}>
             <h1>Sign Up</h1>
             <p>Enter your details to create an account</p>
-            <div style={{ width: '30%' }} className="form-group">
-              <label htmlFor="username" className="form-label">
-                Username
-                <input onChange={this.handleChangeUsername} type="text" className="form-control" name="username" placeholder="Enter Your Username" required />
-              </label>
-            </div>
-            <div style={{ width: '30%' }} className="form-group">
-              <label htmlFor="password" className="form-label">
-                Password
-                <input onChange={this.handleChangePassword} type="password" className="form-control" name="password" placeholder="Enter Your Password" required />
-              </label>
-            </div>
-            <button type="submit">Sign Up</button>
-          </form>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control onChange={this.handleChangeUsername} type="text" name="username" placeholder="Enter Your Username" required />
+            </Form.Group>
+            <Form.Group controlId="formPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control onChange={this.handleChangePassword} type="password" name="password" placeholder="Enter Your Password" required />
+            </Form.Group>
+            <Button variant="success" type="submit">
+              Submit
+            </Button>
+          </Form>
         </div>
       </div>
     );

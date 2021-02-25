@@ -28,6 +28,15 @@
   color: #61dafb;
 }
 
+#nav-bar {
+  height: 80px;
+}
+
+#nav-brand {
+  font-weight: bold;
+  font-size: x-large;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
