@@ -18,7 +18,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-sessions": "^1.0.6",
-    "mocha": "^8.3.0"
+    "mocha": "^8.3.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "eslint": "^7.20.0",

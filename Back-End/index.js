@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
+const mysql = require('mysql');
 
 app.set('view engine', 'ejs');
 
@@ -30,37 +31,49 @@ app.use((req, res, next) => {
   next();
 });
 
-const Users = [{
-  username: 'admin',
-  password: 'admin',
-}];
+const con = mysql.createConnection({
+  host: 'lab1-splitwise-rn.c2tiaptrhgwl.us-east-1.rds.amazonaws.com',
+  port: '3306',
+  user: 'shakthivel',
+  password: 'Sunshine123',
+  database: 'dbsplitwise',
+});
+
+con.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+});
 
 app.post('/login', (req, res) => {
   console.log('Inside Login Post Request');
   console.log('Req Body: ', req.body);
-  // eslint-disable-next-line array-callback-return
-  Users.filter((user) => {
-    if (user.username === req.body.username && user.password === req.body.password) {
-      res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
-      req.session.user = user;
-      res.status(200);
-    // eslint-disable-next-line no-else-return
-    } else {
-      res.status(500);
-    }
+  let status = 500;
+  con.query('SELECT * FROM users', (err, result) => {
+    if (err) throw err;
+    result.forEach((entry) => {
+      if (entry.username === req.body.username && entry.password === req.body.password) {
+        res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
+        console.log(entry.username);
+        console.log(req.body.username);
+        req.session.user = entry;
+        status = 200;
+      }
+    });
+    console.log(result);
+    res.status(status);
+    res.send();
   });
-  res.send();
 });
 
 app.post('/register', (req, res) => {
   console.log('Inside Register Post Request');
   console.log('Req Body: ', req.body);
-  const userdata = {
-    username: req.body.username,
-    password: req.body.password,
-  };
-  Users.push(userdata);
-  res.send('Success');
+  // eslint-disable-next-line no-shadow
+  con.query(`INSERT INTO users VALUES ('${req.body.username}', '${req.body.password}')`, (err) => {
+    if (err) throw err;
+    console.log('User values inserted');
+    res.send();
+  });
 });
 
 app.listen(3001, () => {
