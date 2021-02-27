@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
 const mysql = require('mysql');
+const crypto = require('crypto');
 
 app.set('view engine', 'ejs');
 
@@ -44,6 +45,16 @@ con.connect((err) => {
   console.log('Connected!');
 });
 
+const encryptionAlgorithm = 'aes-128-cbc-hmac-sha1';
+const key = 'Ae58BwN';
+
+function encrypt(password) {
+  const cipher = crypto.createCipher(encryptionAlgorithm, key);
+  let encryptedPassword = cipher.update(password, 'utf8', 'hex');
+  encryptedPassword += cipher.final('hex');
+  return encryptedPassword;
+}
+
 app.post('/login', (req, res) => {
   console.log('Inside Login Post Request');
   console.log('Req Body: ', req.body);
@@ -51,12 +62,15 @@ app.post('/login', (req, res) => {
   con.query('SELECT * FROM users', (err, result) => {
     if (err) throw err;
     result.forEach((entry) => {
-      if (entry.username === req.body.username && entry.password === req.body.password) {
-        res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
-        console.log(entry.username);
-        console.log(req.body.username);
-        req.session.user = entry;
-        status = 200;
+      if (entry.username === req.body.username) {
+        const encryptedPassword = encrypt(req.body.password);
+        if (encryptedPassword === entry.password) {
+          res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
+          console.log(entry.username);
+          console.log(req.body.username);
+          req.session.user = entry;
+          status = 200;
+        }
       }
     });
     console.log(result);
@@ -68,8 +82,8 @@ app.post('/login', (req, res) => {
 app.post('/register', (req, res) => {
   console.log('Inside Register Post Request');
   console.log('Req Body: ', req.body);
-  // eslint-disable-next-line no-shadow
-  con.query(`INSERT INTO users VALUES ('${req.body.username}', '${req.body.password}')`, (err) => {
+  const encryptedPassword = encrypt(req.body.password);
+  con.query(`INSERT INTO users VALUES ('${req.body.username}', '${encryptedPassword}')`, (err) => {
     if (err) throw err;
     console.log('User values inserted');
     res.send();

@@ -5,7 +5,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
-import LandingPage from './components/LandinPage/LandingPage';
+import LandingPage from './components/LandingPage/LandingPage';
 
 function App() {
   return (
