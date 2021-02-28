@@ -59,15 +59,13 @@ app.post('/login', (req, res) => {
   console.log('Inside Login Post Request');
   console.log('Req Body: ', req.body);
   let status = 500;
-  con.query('SELECT * FROM users', (err, result) => {
+  con.query('SELECT * FROM Users', (err, result) => {
     if (err) throw err;
     result.forEach((entry) => {
-      if (entry.username === req.body.username) {
+      if (entry.email === req.body.email) {
         const encryptedPassword = encrypt(req.body.password);
         if (encryptedPassword === entry.password) {
           res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
-          console.log(entry.username);
-          console.log(req.body.username);
           req.session.user = entry;
           status = 200;
         }
@@ -83,7 +81,7 @@ app.post('/register', (req, res) => {
   console.log('Inside Register Post Request');
   console.log('Req Body: ', req.body);
   const encryptedPassword = encrypt(req.body.password);
-  con.query(`INSERT INTO users VALUES ('${req.body.username}', '${encryptedPassword}')`, (err) => {
+  con.query(`INSERT INTO Users (name, email, password) VALUES ('${req.body.name}', '${req.body.email}', '${encryptedPassword}')`, (err) => {
     if (err) throw err;
     console.log('User values inserted');
     res.send();
