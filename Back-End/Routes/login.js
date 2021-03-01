@@ -1,35 +1,35 @@
 const express = require('express');
-const con = require('../DatabaseConnection/db_connection');
 const encrypt = require('../Encryption/encryption');
+const Users = require('../models/Users');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   console.log('Inside Login Post Request');
   console.log('Req Body: ', req.body);
   let status = 500;
   let userData = {};
-  con.query('SELECT * FROM Users', (err, result) => {
-    if (err) throw err;
-    result.forEach((entry) => {
-      if (entry.email === req.body.email) {
-        const encryptedPassword = encrypt(req.body.password);
-        if (encryptedPassword === entry.password) {
-          res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
-          req.session.user = entry;
-          status = 200;
-          userData = {
-            id: entry.user_id,
-            name: entry.name,
-            email: entry.email,
-          };
-        }
-      }
-    });
-    console.log(result);
-    res.status(status);
-    res.send(userData);
+  const users = await Users.findAll({
+    attributes: ['id', 'name', 'email', 'password'],
   });
+  users.forEach((user) => {
+    if (user.dataValues.email === req.body.email) {
+      const encryptedPassword = encrypt(req.body.password);
+      if (user.dataValues.password === encryptedPassword) {
+        res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
+        req.session.user = user;
+        status = 200;
+        userData = {
+          id: user.dataValues.id,
+          name: user.dataValues.name,
+          email: user.dataValues.email,
+        };
+      }
+    }
+  });
+  console.log(users);
+  res.status(status);
+  res.send(userData);
 });
 
 module.exports = router;

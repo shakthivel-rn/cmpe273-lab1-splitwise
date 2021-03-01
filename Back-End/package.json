@@ -20,7 +20,9 @@
     "express-session": "^1.17.1",
     "express-sessions": "^1.0.6",
     "mocha": "^8.3.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0"
   },
   "devDependencies": {
     "eslint": "^7.20.0",
