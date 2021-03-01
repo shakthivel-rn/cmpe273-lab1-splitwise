@@ -5,6 +5,8 @@ import './Login.css';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
+import { propTypes } from 'react-bootstrap/esm/Image';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class Login extends Component {
@@ -41,7 +43,11 @@ class Login extends Component {
     };
     axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/login', data)
-      .then(() => {
+      .then((response) => {
+        const { onSubmitUser } = this.props;
+        onSubmitUser(response.data);
+        const { userId, userName, userEmail } = this.props;
+        alert(`ID - ${userId} Name - ${userName} Email - ${userEmail} 1`);
         this.setState({
           redirectFlag: true,
         });
@@ -78,4 +84,29 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+
+const mapStateToProps = (state) => ({
+  userId: state.id,
+  userName: state.name,
+  userEmail: state.email,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitUser: (userData) => dispatch({ type: 'REGISTER_USER', value: userData }),
+});
+
+Login.defaultProps = {
+  userId: 0,
+  userName: '',
+  userEmail: '',
+  onSubmitUser: () => {},
+};
+
+Login.propTypes = {
+  userId: propTypes.number,
+  userName: propTypes.string,
+  userEmail: propTypes.string,
+  onSubmitUser: propTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

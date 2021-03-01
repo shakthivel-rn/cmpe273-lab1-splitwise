@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
+import { connect } from 'react-redux';
 import { Navbar, Nav, Button } from 'react-bootstrap';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 class Navigationbar extends Component {
   constructor(props) {
@@ -10,6 +12,8 @@ class Navigationbar extends Component {
   }
 
   handleLogout = () => {
+    const { onLogoutUser } = this.props;
+    onLogoutUser();
     cookie.remove('cookie', { path: '/' });
   }
 
@@ -42,4 +46,16 @@ class Navigationbar extends Component {
     );
   }
 }
-export default Navigationbar;
+
+const mapDispatchToProps = (dispatch) => ({
+  onLogoutUser: () => dispatch({ type: 'REMOVE_USER' }),
+});
+
+Navigationbar.defaultProps = {
+  onLogoutUser: () => {},
+};
+
+Navigationbar.propTypes = {
+  onLogoutUser: propTypes.func,
+};
+export default connect(mapDispatchToProps)(Navigationbar);
