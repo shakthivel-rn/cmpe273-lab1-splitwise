@@ -9,6 +9,7 @@ const login = require('./Routes/login');
 const register = require('./Routes/register');
 const createGroup = require('./Routes/createGroup');
 const profilePage = require('./Routes/profilePage');
+const createExpense = require('./Routes/createExpense');
 
 app.set('view engine', 'ejs');
 
@@ -38,6 +39,7 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/createGroup', createGroup);
 app.use('/profilePage', profilePage);
+app.use('/createExpense', createExpense);
 
 app.listen(3001, () => {
   console.log('Server listening on port 3001');

@@ -3,6 +3,13 @@ const sequelize = require('../DatabaseConnection/connection');
 
 module.exports = () => {
   const Transactions = sequelize.define('Transactions', {
+    id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      unique: true,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     expense_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
