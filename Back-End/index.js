@@ -7,6 +7,8 @@ const session = require('express-session');
 const cors = require('cors');
 const login = require('./Routes/login');
 const register = require('./Routes/register');
+const createGroup = require('./Routes/createGroup');
+const profilePage = require('./Routes/profilePage');
 
 app.set('view engine', 'ejs');
 
@@ -34,6 +36,8 @@ app.use((req, res, next) => {
 
 app.use('/login', login);
 app.use('/register', register);
+app.use('/createGroup', createGroup);
+app.use('/profilePage', profilePage);
 
 app.listen(3001, () => {
   console.log('Server listening on port 3001');

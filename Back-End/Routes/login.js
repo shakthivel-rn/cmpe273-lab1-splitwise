@@ -1,5 +1,6 @@
 const express = require('express');
 const encrypt = require('../Encryption/encryption');
+// const Users = require('../models/Users');
 const Users = require('../models/Users');
 
 const router = express.Router();
@@ -10,7 +11,7 @@ router.post('/', async (req, res) => {
   let status = 500;
   let userData = {};
   const users = await Users.findAll({
-    attributes: ['id', 'name', 'email', 'password'],
+    attributes: ['user_id', 'name', 'email', 'password'],
   });
   users.forEach((user) => {
     if (user.dataValues.email === req.body.email) {
@@ -20,7 +21,7 @@ router.post('/', async (req, res) => {
         req.session.user = user;
         status = 200;
         userData = {
-          id: user.dataValues.id,
+          id: user.dataValues.user_id,
           name: user.dataValues.name,
           email: user.dataValues.email,
         };

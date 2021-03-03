@@ -12,9 +12,9 @@ class Navigationbar extends Component {
   }
 
   handleLogout = () => {
+    cookie.remove('cookie', { path: '/' });
     const { onLogoutUser } = this.props;
     onLogoutUser();
-    cookie.remove('cookie', { path: '/' });
   }
 
   render() {
