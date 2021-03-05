@@ -18,7 +18,7 @@ module.exports = () => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-  }, {});
+  });
   UsersGroups.associate = (models) => {
     UsersGroups.belongsTo(models.Users, { foreignKey: 'user_id' });
     UsersGroups.belongsTo(models.Groups, { foreignKey: 'group_id' });

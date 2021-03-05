@@ -7,6 +7,14 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true,
     },
+    group_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Groups',
+        key: 'group_id',
+      },
+    },
     expense_id: {
       type: Sequelize.INTEGER,
       allowNull: false,

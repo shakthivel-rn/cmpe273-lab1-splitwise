@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import '../../App.css';
 import './Register.css';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
+import { propTypes } from 'react-bootstrap/esm/Image';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class Register extends Component {
@@ -47,8 +49,11 @@ class Register extends Component {
       email,
       password,
     };
+    axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/register', data)
-      .then(() => {
+      .then((response) => {
+        const { onSubmitUser } = this.props;
+        onSubmitUser(response.data);
         this.setState({
           redirectFlag: true,
         });
@@ -62,7 +67,7 @@ class Register extends Component {
     const { redirectFlag } = this.state;
     return (
       <div>
-        {redirectFlag ? <Redirect to="/login" /> : null}
+        {redirectFlag ? <Redirect to="/dashboard" /> : null}
         <Navigationbar />
         <div className="container">
           <Form id="signup-form" method="post" onSubmit={this.submitRegister}>
@@ -89,4 +94,19 @@ class Register extends Component {
     );
   }
 }
-export default Register;
+const mapStateToProps = (state) => ({
+  userId: state.id,
+  userName: state.name,
+  userEmail: state.email,
+});
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitUser: (userData) => dispatch({ type: 'REGISTER_USER', value: userData }),
+});
+Register.defaultProps = {
+  onSubmitUser: () => {},
+};
+
+Register.propTypes = {
+  onSubmitUser: propTypes.func,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

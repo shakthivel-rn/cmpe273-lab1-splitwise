@@ -22,7 +22,7 @@ module.exports = () => {
       type: Sequelize.DECIMAL,
       allowNull: false,
     },
-  }, {});
+  });
   Expenses.associate = (models) => {
     Expenses.belongsTo(models.Groups);
     Expenses.belongsToMany(models.Users, { through: 'Transactions', foreignKey: 'expense_id' });

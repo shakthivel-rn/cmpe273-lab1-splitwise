@@ -15,8 +15,15 @@ router.post('/', async (req, res) => {
       email: req.body.email,
     },
   );
+  res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
+  req.session.user = user;
+  const userData = {
+    id: user.user_id,
+    name: user.name,
+    email: user.email,
+  };
   console.log(`Inserted info of ${user.email}`);
-  res.send();
+  res.send(userData);
 });
 
 module.exports = router;

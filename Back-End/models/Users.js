@@ -38,9 +38,9 @@ module.exports = () => {
     user_image: {
       type: Sequelize.STRING(500),
     },
-  }, {});
+  });
   Users.associate = (models) => {
-    Users.belongsToMany(models.Groups, { through: 'Users_Groups', foreignKey: 'user_id', as: 'groups' });
+    Users.belongsToMany(models.Groups, { through: 'Users_Groups', foreignKey: 'user_id' });
     Users.belongsToMany(models.Expenses, { through: 'Transactions', foreignKey: 'user_id' });
   };
   return Users;

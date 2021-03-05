@@ -10,6 +10,10 @@ module.exports = () => {
       autoIncrement: true,
       primaryKey: true,
     },
+    group_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
     expense_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -30,7 +34,7 @@ module.exports = () => {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },
-  }, {});
+  });
   Transactions.associate = (models) => {
     Transactions.belongsTo(models.Users, { foreignKey: 'user_id' });
     Transactions.belongsTo(models.Expenses, { foreignKey: 'expense_id' });

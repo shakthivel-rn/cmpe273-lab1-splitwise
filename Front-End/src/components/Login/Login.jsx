@@ -46,8 +46,6 @@ class Login extends Component {
       .then((response) => {
         const { onSubmitUser } = this.props;
         onSubmitUser(response.data);
-        const { userId, userName, userEmail } = this.props;
-        alert(`ID - ${userId} Name - ${userName} Email - ${userEmail} 1`);
         this.setState({
           redirectFlag: true,
         });
@@ -96,16 +94,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.defaultProps = {
-  userId: 0,
-  userName: '',
-  userEmail: '',
   onSubmitUser: () => {},
 };
 
 Login.propTypes = {
-  userId: propTypes.number,
-  userName: propTypes.string,
-  userEmail: propTypes.string,
   onSubmitUser: propTypes.func,
 };
 

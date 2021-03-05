@@ -19,7 +19,7 @@ module.exports = () => {
       type: Sequelize.STRING(500),
       allowNull: false,
     },
-  }, {});
+  });
   Groups.associate = (models) => {
     Groups.belongsToMany(models.Users, { through: 'Users_Groups', foreignKey: 'group_id', as: 'users' });
     Groups.hasMany(models.Expenses, { foreignKey: 'group_id' });
