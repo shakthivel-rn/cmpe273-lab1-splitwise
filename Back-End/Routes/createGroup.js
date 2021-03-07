@@ -9,7 +9,6 @@ router.post('/', async (req, res) => {
   const group = await Groups.create(
     {
       group_name: req.body.groupName,
-      group_image: req.body.groupImage,
     },
   );
   await UsersGroups.create(

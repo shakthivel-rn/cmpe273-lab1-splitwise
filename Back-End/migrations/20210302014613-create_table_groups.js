@@ -14,7 +14,6 @@ module.exports = {
     },
     group_image: {
       type: Sequelize.STRING(500),
-      allowNull: false,
     },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
