@@ -1,0 +1,15 @@
+.dashboard {
+    margin-top: 20px;
+}
+
+#grouptag {
+    margin-top: 15px;
+}
+
+a {
+    color: #000000;
+}
+
+a:hover {
+    color: #009933;
+}

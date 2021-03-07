@@ -26,18 +26,41 @@ router.get('/', async (req, res) => {
       'paid_user_id',
       'owed_user_id',
       'split_amount',
+      'status',
     ],
     where: {
       group_id: req.query.groupId,
-      status: 0,
     },
   });
-  const result = groupTransactions.map((groupTransaction) => ({
-    expenseName: expenseNames[groupTransaction.dataValues.expense_id],
-    paidUserName: userNames[groupTransaction.dataValues.paid_user_id],
-    owedUserName: userNames[groupTransaction.dataValues.owed_user_id],
-    splitAmount: groupTransaction.dataValues.split_amount,
-  }));
+  const result = groupTransactions.map((groupTransaction) => {
+    if (groupTransaction.dataValues.paid_user_id === groupTransaction.dataValues.owed_user_id) {
+      return ({
+        expenseName: expenseNames[groupTransaction.dataValues.expense_id],
+        paidUserName: userNames[groupTransaction.dataValues.paid_user_id],
+        owedUserName: userNames[groupTransaction.dataValues.owed_user_id],
+        splitAmount: groupTransaction.dataValues.split_amount,
+        status: 'Created',
+      });
+    }
+
+    if (groupTransaction.dataValues.status === 1) {
+      return ({
+        expenseName: expenseNames[groupTransaction.dataValues.expense_id],
+        paidUserName: userNames[groupTransaction.dataValues.paid_user_id],
+        owedUserName: userNames[groupTransaction.dataValues.owed_user_id],
+        splitAmount: groupTransaction.dataValues.split_amount,
+        status: 'Paid',
+      });
+    }
+
+    return ({
+      expenseName: expenseNames[groupTransaction.dataValues.expense_id],
+      paidUserName: userNames[groupTransaction.dataValues.paid_user_id],
+      owedUserName: userNames[groupTransaction.dataValues.owed_user_id],
+      splitAmount: groupTransaction.dataValues.split_amount,
+      status: 'Owes',
+    });
+  });
   res.send(result);
 });
 

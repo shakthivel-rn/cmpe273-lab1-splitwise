@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { connect } from 'react-redux';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import {
+  Navbar, Nav, Button, Dropdown,
+} from 'react-bootstrap';
 import { propTypes } from 'react-bootstrap/esm/Image';
 
 class Navigationbar extends Component {
@@ -22,7 +24,17 @@ class Navigationbar extends Component {
     if (cookie.load('cookie')) {
       navLogin = (
         <Nav className="ml-auto">
-          <Button variant="success" onClick={this.handleLogout} href="/">Sign Out</Button>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Menu
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="/profilepage">Profile Page</Dropdown.Item>
+              <Dropdown.Item href="/creategroup">Create Group</Dropdown.Item>
+              <Dropdown.Item onClick={this.handleLogout} href="/">Sign Out</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Nav>
       );
     } else {
@@ -37,7 +49,7 @@ class Navigationbar extends Component {
       <div>
         <Navbar id="nav-bar" bg="light" expand="lg">
           <div className="container">
-            <Navbar.Brand id="nav-brand" href="/">Splitwise</Navbar.Brand>
+            <Navbar.Brand id="nav-brand" href="/dashboard">Splitwise</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             {navLogin}
           </div>
