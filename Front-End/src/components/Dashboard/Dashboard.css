@@ -13,3 +13,8 @@ a {
 a:hover {
     color: #009933;
 }
+
+#balancecontainer {
+    margin-top: 10px;
+    padding-top: 10px;
+}

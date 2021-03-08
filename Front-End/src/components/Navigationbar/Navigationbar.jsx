@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.css';
+import './Navigationbar.css';
 import cookie from 'react-cookies';
 import { connect } from 'react-redux';
 import {
@@ -47,7 +48,7 @@ class Navigationbar extends Component {
     }
     return (
       <div>
-        <Navbar id="nav-bar" bg="light" expand="lg">
+        <Navbar id="nav-bar">
           <div className="container">
             <Navbar.Brand id="nav-brand" href="/dashboard">Splitwise</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -8,6 +8,7 @@ import LandingPage from './components/LandingPage/LandingPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import Profilepage from './components/ProfilePage/Profilepage';
 import CreateGroup from './components/CreateGroup/CreateGroup';
+import RecentActivity from './components/RecentActivity/RecentActivity';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route exact path="/profilepage" component={Profilepage} />
       <Route exact path="/creategroup" component={CreateGroup} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/recentactivity" component={RecentActivity} />
     </div>
   );
 }

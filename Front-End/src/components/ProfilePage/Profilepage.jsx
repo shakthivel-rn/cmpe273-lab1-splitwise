@@ -6,6 +6,7 @@ import cookie from 'react-cookies';
 import {
   Container, Row, Col, Form, Button, Figure,
 } from 'react-bootstrap';
+import axios from 'axios';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class Profilepage extends Component {
@@ -13,7 +14,151 @@ class Profilepage extends Component {
     super(props);
     this.state = {
       redirectFlag: false,
+      name: 'Your Name',
+      email: 'Your Email',
+      phone: 'Your Phonenumber',
+      defaultcurrency: 'Choose Currency',
+      timezone: 'Choose Timezone',
+      language: 'Choose Language',
     };
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePhone = this.handleChangePhone.bind(this);
+    this.handleChangeDefautCurrency = this.handleChangeDefautCurrency.bind(this);
+    this.handleChangeTimezone = this.handleChangeTimezone.bind(this);
+    this.handleChangeLanguage = this.handleChangeLanguage.bind(this);
+    this.editName = this.editName.bind(this);
+    this.editEmail = this.editEmail.bind(this);
+    this.editPhone = this.editPhone.bind(this);
+    this.editDefaultCurrency = this.editDefaultCurrency.bind(this);
+    this.editTimeZone = this.editTimeZone.bind(this);
+    this.editLanguage = this.editLanguage.bind(this);
+  }
+
+  async componentDidMount() {
+    const res = await axios.get('http://localhost:3001/profilePage/getUserDetails', { params: { userId: 1 } });
+    this.setState({
+      name: res.data[0].name,
+      email: res.data[0].email,
+      phone: res.data[0].phone_number ? res.data[0].phone_number : 'Your Phonenumber',
+      defaultcurrency: res.data[0].default_currency ? res.data[0].default_currency : 'Choose Currency',
+      timezone: res.data[0].timezone ? res.data[0].timezone : 'Choose Timezone',
+      language: res.data[0].language ? res.data[0].language : 'Choose Language',
+    });
+  }
+
+  handleChangeName = (e) => {
+    this.setState({
+      name: e.target.value,
+    });
+  }
+
+  handleChangeEmail = (e) => {
+    this.setState({
+      email: e.target.value,
+    });
+  }
+
+  handleChangePhone = (e) => {
+    this.setState({
+      phone: e.target.value,
+    });
+  }
+
+  handleChangeDefautCurrency = (e) => {
+    this.setState({
+      defaultcurrency: e.target.value,
+    });
+  }
+
+  handleChangeTimezone = (e) => {
+    this.setState({
+      timezone: e.target.value,
+    });
+  }
+
+  handleChangeLanguage = (e) => {
+    this.setState({
+      language: e.target.value,
+    });
+  }
+
+  editName = (e) => {
+    e.preventDefault();
+    const { name } = this.state;
+    const userId = 1;
+    const data = {
+      name,
+      userId,
+    };
+    axios.defaults.withCredentials = true;
+    axios.post('http://localhost:3001/profilePage/editName', data);
+  }
+
+  editEmail = (e) => {
+    e.preventDefault();
+    const { email } = this.state;
+    const userId = 1;
+    const data = {
+      email,
+      userId,
+    };
+    axios.defaults.withCredentials = true;
+    axios.post('http://localhost:3001/profilePage/editEmail', data)
+      .then(() => {
+        alert('Edit Successfull');
+      })
+      .catch(() => {
+        alert('The Email already exist');
+      });
+  }
+
+  editPhone = (e) => {
+    e.preventDefault();
+    const { phone } = this.state;
+    const userId = 1;
+    const data = {
+      phone,
+      userId,
+    };
+    axios.defaults.withCredentials = true;
+    axios.post('http://localhost:3001/profilePage/editPhoneNumber', data);
+  }
+
+  editDefaultCurrency = (e) => {
+    e.preventDefault();
+    const { defaultcurrency } = this.state;
+    const userId = 1;
+    const data = {
+      defaultcurrency,
+      userId,
+    };
+    axios.defaults.withCredentials = true;
+    axios.post('http://localhost:3001/profilePage/editDefaultCurrency', data);
+  }
+
+  editTimeZone = (e) => {
+    e.preventDefault();
+    const { timezone } = this.state;
+    const userId = 1;
+    const data = {
+      timezone,
+      userId,
+    };
+    axios.defaults.withCredentials = true;
+    axios.post('http://localhost:3001/profilePage/editTimeZone', data);
+  }
+
+  editLanguage = (e) => {
+    e.preventDefault();
+    const { language } = this.state;
+    const userId = 1;
+    const data = {
+      language,
+      userId,
+    };
+    axios.defaults.withCredentials = true;
+    axios.post('http://localhost:3001/profilePage/editLanguage', data);
   }
 
   render() {
@@ -22,6 +167,9 @@ class Profilepage extends Component {
         redirectFlag: true,
       });
     }
+    const {
+      name, email, phone, defaultcurrency, timezone, language,
+    } = this.state;
     const { redirectFlag } = this.state;
     return (
       <div>
@@ -50,9 +198,9 @@ class Profilepage extends Component {
                   </Col>
                   <Col>
                     <p>Your Name</p>
-                    <Form inline>
+                    <Form method="post" onSubmit={this.editName} inline>
                       <Form.Group controlId="editUserName">
-                        <Form.Control className="mb-2 mr-sm-2" id="username" placeholder="Your Name" />
+                        <Form.Control onChange={this.handleChangeName} className="mb-2 mr-sm-2" id="username" placeholder={name} />
                       </Form.Group>
                       <Button variant="outline-success" type="submit" className="mb-2">
                         Edit
@@ -60,9 +208,9 @@ class Profilepage extends Component {
                     </Form>
                     <br />
                     <p>Your email address</p>
-                    <Form inline>
+                    <Form method="post" onSubmit={this.editEmail} inline>
                       <Form.Group controlId="editUserEmail">
-                        <Form.Control className="mb-2 mr-sm-2" id="useremail" placeholder="Your Email" />
+                        <Form.Control onChange={this.handleChangeEmail} className="mb-2 mr-sm-2" id="useremail" placeholder={email} />
                       </Form.Group>
                       <Button variant="outline-success" type="submit" className="mb-2">
                         Edit
@@ -70,9 +218,9 @@ class Profilepage extends Component {
                     </Form>
                     <br />
                     <p>Your phone number</p>
-                    <Form inline>
+                    <Form method="post" onSubmit={this.editPhone} inline>
                       <Form.Group controlId="editUserPhone">
-                        <Form.Control className="mb-2 mr-sm-2" id="userphone" placeholder="Your Phonenumber" />
+                        <Form.Control onChange={this.handleChangePhone} className="mb-2 mr-sm-2" id="userphone" placeholder={phone} />
                       </Form.Group>
                       <Button variant="outline-success" type="submit" className="mb-2">
                         Edit
@@ -81,15 +229,15 @@ class Profilepage extends Component {
                   </Col>
                   <Col>
                     <p>Your default currency</p>
-                    <Form inline>
-                      <Form.Control as="select" className="my-1 mr-sm-2" id="defaultcurrency" custom>
-                        <option value="0">Choose Currency</option>
-                        <option value="1">USD</option>
-                        <option value="2">KWD</option>
-                        <option value="3">BHD</option>
-                        <option value="4">GBP</option>
-                        <option value="5">EUR</option>
-                        <option value="6">CAD</option>
+                    <Form method="post" onSubmit={this.editDefaultCurrency} inline>
+                      <Form.Control onChange={this.handleChangeDefautCurrency} as="select" className="my-1 mr-sm-2" id="defaultcurrency" custom>
+                        <option value="Choose Currency">{defaultcurrency}</option>
+                        <option value="USD">USD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="BHD">BHD</option>
+                        <option value="GBP">GBP</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CAD">CAD</option>
                       </Form.Control>
                       <Button variant="outline-success" type="submit" className="my-1">
                         Edit
@@ -97,18 +245,18 @@ class Profilepage extends Component {
                     </Form>
                     <br />
                     <p>Your time zone</p>
-                    <Form inline>
-                      <Form.Control as="select" className="my-1 mr-sm-2" id="defaulttimezone" custom>
-                        <option value="0">Choose Timezone</option>
-                        <option value="1">Atlantic Standard Time (AST)</option>
-                        <option value="2">Eastern Standard Time (EST)</option>
-                        <option value="3">Central Standard Time (CST)</option>
-                        <option value="4">Mountain Standard Time (MST)</option>
-                        <option value="5">Pacific Standard Time (PST)</option>
-                        <option value="6">Alaskan Standard Time (AKST)</option>
-                        <option value="7">Hawaii-Aleutian Standard Time (HST)</option>
-                        <option value="8">Samoa standard time (UTC-11)</option>
-                        <option value="9">Chamorro Standard Time (UTC+10)</option>
+                    <Form method="post" onSubmit={this.editTimeZone} inline>
+                      <Form.Control onChange={this.handleChangeTimezone} as="select" className="my-1 mr-sm-2" id="defaulttimezone" custom>
+                        <option value="Choose Timezone">{timezone}</option>
+                        <option value="Atlantic Standard Time (AST)">Atlantic Standard Time (AST)</option>
+                        <option value="Eastern Standard Time (EST)">Eastern Standard Time (EST)</option>
+                        <option value="Central Standard Time (CST)">Central Standard Time (CST)</option>
+                        <option value="Mountain Standard Time (MST)">Mountain Standard Time (MST)</option>
+                        <option value="Pacific Standard Time (PST)">Pacific Standard Time (PST)</option>
+                        <option value="Alaskan Standard Time (AKST)">Alaskan Standard Time (AKST)</option>
+                        <option value="Hawaii-Aleutian Standard Time (HST)">Hawaii-Aleutian Standard Time (HST)</option>
+                        <option value="Samoa standard time (UTC-11)">Samoa standard time (UTC-11)</option>
+                        <option value="Chamorro Standard Time (UTC+10)">Chamorro Standard Time (UTC+10)</option>
                       </Form.Control>
                       <Button variant="outline-success" type="submit" className="my-1">
                         Edit
@@ -116,14 +264,14 @@ class Profilepage extends Component {
                     </Form>
                     <br />
                     <p>Language</p>
-                    <Form inline>
-                      <Form.Control as="select" className="my-1 mr-sm-2" id="defaultlanguage" custom>
-                        <option value="0">Choose Language</option>
-                        <option value="1">English</option>
-                        <option value="2">Spanish</option>
-                        <option value="3">Chinese</option>
-                        <option value="5">Japanese</option>
-                        <option value="6">French</option>
+                    <Form method="post" onSubmit={this.editLanguage} inline>
+                      <Form.Control onChange={this.handleChangeLanguage} as="select" className="my-1 mr-sm-2" id="defaultlanguage" custom>
+                        <option value="Choose Language">{language}</option>
+                        <option value="English">English</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="French">French</option>
                       </Form.Control>
                       <Button variant="outline-success" type="submit" className="my-1">
                         Edit

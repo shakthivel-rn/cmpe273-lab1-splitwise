@@ -3,6 +3,16 @@ const Users = require('../models/Users')();
 
 const router = express.Router();
 
+router.get('/getUserDetails', async (req, res) => {
+  const user = await Users.findAll({
+    where: {
+      user_id: req.query.userId,
+    },
+  });
+  console.log(user);
+  res.send(user);
+});
+
 router.post('/editName', async (req, res) => {
   await Users.update({ name: req.body.name }, {
     where: {
@@ -13,16 +23,28 @@ router.post('/editName', async (req, res) => {
 });
 
 router.post('/editEmail', async (req, res) => {
-  await Users.update({ email: req.body.email }, {
+  let status = 500;
+  const userEmail = await Users.findAll({
     where: {
-      user_id: req.body.userId,
+      email: req.body.email,
     },
   });
-  res.send();
+  console.log(userEmail);
+  if (userEmail.length === 0) {
+    await Users.update({ email: req.body.email }, {
+      where: {
+        user_id: req.body.userId,
+      },
+    });
+    status = 200;
+  } else {
+    status = 500;
+  }
+  res.sendStatus(status);
 });
 
 router.post('/editPhoneNumber', async (req, res) => {
-  await Users.update({ phone_number: req.body.phoneNumber }, {
+  await Users.update({ phone_number: req.body.phone }, {
     where: {
       user_id: req.body.userId,
     },
@@ -31,7 +53,7 @@ router.post('/editPhoneNumber', async (req, res) => {
 });
 
 router.post('/editDefaultCurrency', async (req, res) => {
-  await Users.update({ default_currency: req.body.defaultCurrency }, {
+  await Users.update({ default_currency: req.body.defaultcurrency }, {
     where: {
       user_id: req.body.userId,
     },
@@ -40,7 +62,7 @@ router.post('/editDefaultCurrency', async (req, res) => {
 });
 
 router.post('/editTimeZone', async (req, res) => {
-  await Users.update({ timezone: req.body.timeZone }, {
+  await Users.update({ timezone: req.body.timezone }, {
     where: {
       user_id: req.body.userId,
     },

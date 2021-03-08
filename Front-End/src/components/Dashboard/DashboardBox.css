@@ -1,0 +1,16 @@
+#balance {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid grey;
+}
+
+.balancedisplay {
+    border-right: 1px solid grey;
+    padding-right: 200px;
+}
+
+#dashboardcontainer {
+    background-color: rgb(238, 238, 238);
+    padding:20px;
+    border-radius: 5px;
+}
