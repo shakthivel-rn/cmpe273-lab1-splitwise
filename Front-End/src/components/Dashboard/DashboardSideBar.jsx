@@ -10,12 +10,14 @@ class DashboardSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: localStorage.getItem('userId'),
       groups: [],
     };
   }
 
   async componentDidMount() {
-    const res = await axios.get('http://localhost:3001/dashboard/getGroupNames', { params: { userId: 1 } });
+    const { userId } = this.state;
+    const res = await axios.get('http://localhost:3001/dashboard/getGroupNames', { params: { userId } });
     const { groups } = this.state;
     this.setState({
       groups: groups.concat(res.data),

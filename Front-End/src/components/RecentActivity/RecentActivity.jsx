@@ -14,13 +14,15 @@ class RecentActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: localStorage.getItem('userId'),
       redirectFlag: false,
       recentactivitylogs: [],
     };
   }
 
   async componentDidMount() {
-    const res = await axios.get('http://localhost:3001/recentActivity', { params: { userId: 1 } });
+    const { userId } = this.state;
+    const res = await axios.get('http://localhost:3001/recentActivity', { params: { userId } });
     const { recentactivitylogs } = this.state;
     this.setState({
       recentactivitylogs: recentactivitylogs.concat(res.data),

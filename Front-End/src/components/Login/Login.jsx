@@ -46,6 +46,7 @@ class Login extends Component {
       .then((response) => {
         const { onSubmitUser } = this.props;
         onSubmitUser(response.data);
+        localStorage.setItem('userId', response.data.id);
         this.setState({
           redirectFlag: true,
         });

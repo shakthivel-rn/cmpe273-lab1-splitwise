@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import '../../App.css';
 import './Navigationbar.css';
 import cookie from 'react-cookies';
-import { connect } from 'react-redux';
 import {
   Navbar, Nav, Button, Dropdown,
 } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { propTypes } from 'react-bootstrap/esm/Image';
 
 class Navigationbar extends Component {

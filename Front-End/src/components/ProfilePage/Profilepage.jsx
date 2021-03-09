@@ -12,7 +12,9 @@ import Navigationbar from '../Navigationbar/Navigationbar';
 class Profilepage extends Component {
   constructor(props) {
     super(props);
+    const userId = localStorage.getItem('userId');
     this.state = {
+      userId,
       redirectFlag: false,
       name: 'Your Name',
       email: 'Your Email',
@@ -36,7 +38,8 @@ class Profilepage extends Component {
   }
 
   async componentDidMount() {
-    const res = await axios.get('http://localhost:3001/profilePage/getUserDetails', { params: { userId: 1 } });
+    const { userId } = this.state;
+    const res = await axios.get('http://localhost:3001/profilePage/getUserDetails', { params: { userId } });
     this.setState({
       name: res.data[0].name,
       email: res.data[0].email,
