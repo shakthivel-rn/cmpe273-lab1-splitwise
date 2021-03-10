@@ -1,0 +1,25 @@
+.groupcontainer {
+    margin-top: 20px;
+}
+
+#grouppagetop {
+    background-color: rgb(238, 238, 238);
+    padding:20px;
+    border-radius: 5px;
+}
+
+#addanexpense {
+    background-color: rgb(255, 81, 0);
+    border-color:   rgb(255, 81, 0);
+}
+
+#closemodal {
+    background-color: rgb(238, 238, 238);
+    border-color:   rgb(238, 238, 238);
+    color: black;
+}
+
+#modaltop {
+    background-color: rgb(16, 173, 16);
+    color: white;
+}

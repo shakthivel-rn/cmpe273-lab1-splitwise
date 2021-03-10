@@ -31,6 +31,9 @@ router.get('/', async (req, res) => {
     where: {
       group_id: req.query.groupId,
     },
+    order: [
+      ['updatedAt', 'DESC'],
+    ],
   });
   const result = groupTransactions.map((groupTransaction) => {
     if (groupTransaction.dataValues.paid_user_id === groupTransaction.dataValues.owed_user_id) {

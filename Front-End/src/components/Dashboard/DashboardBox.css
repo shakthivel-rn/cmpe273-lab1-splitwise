@@ -14,3 +14,8 @@
     padding:20px;
     border-radius: 5px;
 }
+
+#addabill {
+    background-color:  rgb(255, 81, 0);
+    border-color:   rgb(255, 81, 0);
+}

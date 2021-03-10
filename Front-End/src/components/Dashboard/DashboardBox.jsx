@@ -26,7 +26,7 @@ function Dashboardbox() {
         <div>
           <Row>
             <Col lg={8}><h3>Dashboard</h3></Col>
-            <Col><Button variant="success" href="/dashboard">Add a bill</Button></Col>
+            <Col><Button id="addabill" href="/dashboard">Add a bill</Button></Col>
             <Col><Button variant="success" href="/dashboard">Settle Up</Button></Col>
           </Row>
         </div>

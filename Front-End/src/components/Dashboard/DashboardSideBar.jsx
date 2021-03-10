@@ -27,7 +27,18 @@ class DashboardSideBar extends Component {
   render() {
     const { groups } = this.state;
     const groupNames = groups.map((group) => (
-      <ListGroup.Item><Link to="/dashboard">{group.group_name}</Link></ListGroup.Item>
+      <ListGroup.Item>
+        <Link to={{
+          pathname: '/grouppage',
+          state: {
+            groupId: group.group_id,
+          },
+        }}
+        >
+          {group.group_name}
+        </Link>
+
+      </ListGroup.Item>
     ));
     return (
       <div>

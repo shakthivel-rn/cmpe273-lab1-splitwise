@@ -41,17 +41,23 @@ class RecentActivity extends Component {
     recentactivitylogs.forEach((recentactivitylog) => {
       if (recentactivitylog.status === 'added') {
         recentactivityloglist.push(
-          <ListGroup.Item>{`${recentactivitylog.paidUserName} ${recentactivitylog.status} ${recentactivitylog.expenseName} expense in ${recentactivitylog.groupName}` }</ListGroup.Item>,
+          <ListGroup.Item>{`${recentactivitylog.paidUserName} ${recentactivitylog.status} ${recentactivitylog.expenseName} expense of ${recentactivitylog.expenseAmount}$ in ${recentactivitylog.groupName}` }</ListGroup.Item>,
         );
       }
       if (recentactivitylog.status === 'owes') {
-        recentactivityloglist.push(
-          <ListGroup.Item>{`${recentactivitylog.owedUserName} ${recentactivitylog.status} ${recentactivitylog.paidUserName} ${recentactivitylog.splitAmount}$ in ${recentactivitylog.expenseName}` }</ListGroup.Item>,
-        );
+        if (recentactivitylog.owedUserName === 'You') {
+          recentactivityloglist.push(
+            <ListGroup.Item>{`${recentactivitylog.owedUserName} owe ${recentactivitylog.paidUserName} ${recentactivitylog.splitAmount}$ in ${recentactivitylog.expenseName} expense` }</ListGroup.Item>,
+          );
+        } else {
+          recentactivityloglist.push(
+            <ListGroup.Item>{`${recentactivitylog.owedUserName} ${recentactivitylog.status} ${recentactivitylog.paidUserName} ${recentactivitylog.splitAmount}$ in ${recentactivitylog.expenseName} expense` }</ListGroup.Item>,
+          );
+        }
       }
       if (recentactivitylog.status === 'paid') {
         recentactivityloglist.push(
-          <ListGroup.Item>{`${recentactivitylog.owedUserName} ${recentactivitylog.status} ${recentactivitylog.paidUserName} ${recentactivitylog.splitAmount}$ in ${recentactivitylog.expenseName}` }</ListGroup.Item>,
+          <ListGroup.Item>{`${recentactivitylog.owedUserName} ${recentactivitylog.status} ${recentactivitylog.paidUserName} ${recentactivitylog.splitAmount}$ in ${recentactivitylog.expenseName} expense` }</ListGroup.Item>,
         );
       }
     });
