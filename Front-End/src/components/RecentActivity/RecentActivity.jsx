@@ -41,7 +41,7 @@ class RecentActivity extends Component {
     recentactivitylogs.forEach((recentactivitylog) => {
       if (recentactivitylog.status === 'added') {
         recentactivityloglist.push(
-          <ListGroup.Item>{`${recentactivitylog.paidUserName} ${recentactivitylog.status} ${recentactivitylog.expenseName} expense of ${recentactivitylog.expenseAmount}$ in ${recentactivitylog.groupName}` }</ListGroup.Item>,
+          <ListGroup.Item>{`${recentactivitylog.paidUserName} ${recentactivitylog.status} ${recentactivitylog.expenseName} expense of ${recentactivitylog.expenseAmount}$ in ${recentactivitylog.groupName} group` }</ListGroup.Item>,
         );
       }
       if (recentactivitylog.status === 'owes') {

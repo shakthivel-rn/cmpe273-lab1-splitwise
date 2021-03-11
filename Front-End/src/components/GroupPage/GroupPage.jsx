@@ -15,7 +15,9 @@ class GroupPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: localStorage.getItem('userId'),
       groupId: 0,
+      groupName: '',
       redirectFlag: false,
       groupDatas: [],
       isModalOpen: false,
@@ -24,24 +26,25 @@ class GroupPage extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     // eslint-disable-next-line react/prop-types
-    const { groupId } = nextProps.location.state;
+    const { groupId, groupName } = nextProps.location.state;
     return ({
       groupId,
+      groupName,
     });
   }
 
   async componentDidMount() {
-    const { groupId } = this.state;
-    const res = await axios.get('http://localhost:3001/groupPage', { params: { groupId } });
+    const { userId, groupId } = this.state;
+    const res = await axios.get('http://localhost:3001/groupPage', { params: { userId, groupId } });
     this.setState({
       groupDatas: [...res.data],
     });
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const { groupId } = this.state;
+    const { userId, groupId } = this.state;
     if (groupId !== prevState.groupId) {
-      const res = await axios.get('http://localhost:3001/groupPage', { params: { groupId } });
+      const res = await axios.get('http://localhost:3001/groupPage', { params: { userId, groupId } });
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         groupDatas: [...res.data],
@@ -59,16 +62,35 @@ class GroupPage extends Component {
         redirectFlag: true,
       });
     }
-    const { redirectFlag } = this.state;
-    const { groupId } = this.state;
-    const { groupDatas } = this.state;
+    const {
+      redirectFlag, groupId, groupName, groupDatas, isModalOpen,
+    } = this.state;
     const groupDataList = [];
     groupDatas.forEach((groupData) => {
-      groupDataList.push(
-        <ListGroup.Item>{`${groupData.expenseName} ${groupData.paidUserName} ${groupData.owedUserName} ${groupData.splitAmount} ${groupData.status}` }</ListGroup.Item>,
-      );
+      if (groupData.status === 'added') {
+        groupDataList.push(
+          <ListGroup.Item>
+            {`${groupData.expenseName} <> Added By: ${groupData.paidUserName} <> Amount: ${groupData.expenseAmount}$` }
+          </ListGroup.Item>,
+        );
+      }
+      if (groupData.status === 'owes') {
+        if (groupData.owedUserName === 'You') {
+          groupDataList.push(
+            <ListGroup.Item>{`${groupData.expenseName} <> ${groupData.owedUserName} owe ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
+          );
+        } else {
+          groupDataList.push(
+            <ListGroup.Item>{`${groupData.expenseName} <> ${groupData.owedUserName} ${groupData.status} ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
+          );
+        }
+      }
+      if (groupData.status === 'paid') {
+        groupDataList.push(
+          <ListGroup.Item>{`${groupData.owedUserName} ${groupData.status} ${groupData.paidUserName} ${groupData.splitAmount}$ in ${groupData.expenseName} expense` }</ListGroup.Item>,
+        );
+      }
     });
-    const { isModalOpen } = this.state;
     return (
       <div>
         {redirectFlag ? <Redirect to="/" /> : null}
@@ -84,7 +106,7 @@ class GroupPage extends Component {
                   <div id="grouppagetop">
                     <Row>
                       <Col lg={7}>
-                        <h3>Group Name</h3>
+                        <h3>{groupName}</h3>
                       </Col>
                       <Col><Button id="addanexpense" onClick={this.openModal}>Add an expense</Button></Col>
                       <Modal show={isModalOpen}>
@@ -95,7 +117,7 @@ class GroupPage extends Component {
                           <AddExpenseForm groupId={groupId} />
                         </Modal.Body>
                         <Modal.Footer>
-                          <Button onClick={this.closeModal} id="closemodal">Close Modal</Button>
+                          <Button onClick={this.closeModal} id="closemodal">Close</Button>
                         </Modal.Footer>
                       </Modal>
                     </Row>

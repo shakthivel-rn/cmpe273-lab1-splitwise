@@ -32,6 +32,7 @@ class DashboardSideBar extends Component {
           pathname: '/grouppage',
           state: {
             groupId: group.group_id,
+            groupName: group.group_name,
           },
         }}
         >
