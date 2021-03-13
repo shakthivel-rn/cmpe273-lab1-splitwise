@@ -5,3 +5,9 @@
 .userdetails {
     margin-top: 20px;;
 }
+
+.editProfileButton {
+    background-color: white;
+    border-color:  #1cc29f;
+    color:  #373b3f;
+}

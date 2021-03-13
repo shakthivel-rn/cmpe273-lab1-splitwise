@@ -3,7 +3,7 @@ import '../../App.css';
 import './RecentActivity.css';
 import { Redirect } from 'react-router';
 import {
-  Container, Row, Col, ListGroup,
+  Container, Row, Col, ListGroup, Fade,
 } from 'react-bootstrap';
 import cookie from 'react-cookies';
 import axios from 'axios';
@@ -17,6 +17,7 @@ class RecentActivity extends Component {
       userId: localStorage.getItem('userId'),
       redirectFlag: false,
       recentactivitylogs: [],
+      fadeFlag: false,
     };
   }
 
@@ -26,6 +27,7 @@ class RecentActivity extends Component {
     const { recentactivitylogs } = this.state;
     this.setState({
       recentactivitylogs: recentactivitylogs.concat(res.data),
+      fadeFlag: true,
     });
   }
 
@@ -35,8 +37,7 @@ class RecentActivity extends Component {
         redirectFlag: true,
       });
     }
-    const { redirectFlag } = this.state;
-    const { recentactivitylogs } = this.state;
+    const { redirectFlag, recentactivitylogs, fadeFlag } = this.state;
     const recentactivityloglist = [];
     recentactivitylogs.forEach((recentactivitylog) => {
       if (recentactivitylog.status === 'added') {
@@ -73,9 +74,14 @@ class RecentActivity extends Component {
                   <DashboardSideBar />
                 </Col>
                 <Col>
-                  <ListGroup variant="flush">
-                    {recentactivityloglist}
-                  </ListGroup>
+                  <h3 id="recentactivitytitle">Recent Activity</h3>
+                  <Fade in={fadeFlag}>
+                    <div>
+                      <ListGroup variant="flush">
+                        {recentactivityloglist}
+                      </ListGroup>
+                    </div>
+                  </Fade>
                 </Col>
               </Row>
             </Container>

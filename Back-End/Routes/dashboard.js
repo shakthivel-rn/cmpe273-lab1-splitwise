@@ -118,4 +118,13 @@ router.get('/getIndividualPaidAmount', async (req, res) => {
   res.send(result);
 });
 
+router.post('/settleAmount', async (req, res) => {
+  await Transactions.update({ status: true }, {
+    where: {
+      owed_user_id: req.body.userId,
+    },
+  });
+  res.send();
+});
+
 module.exports = router;

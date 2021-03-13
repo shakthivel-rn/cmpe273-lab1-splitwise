@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import {
-  ListGroup,
+  ListGroup, Fade,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +12,7 @@ class DashboardSideBar extends Component {
     this.state = {
       userId: localStorage.getItem('userId'),
       groups: [],
+      fadeFlag: false,
     };
   }
 
@@ -21,11 +22,12 @@ class DashboardSideBar extends Component {
     const { groups } = this.state;
     this.setState({
       groups: groups.concat(res.data),
+      fadeFlag: true,
     });
   }
 
   render() {
-    const { groups } = this.state;
+    const { groups, fadeFlag } = this.state;
     const groupNames = groups.map((group) => (
       <ListGroup.Item>
         <Link to={{
@@ -52,9 +54,13 @@ class DashboardSideBar extends Component {
           </ListGroup.Item>
         </ListGroup>
         <p id="grouptag">GROUPS</p>
-        <ListGroup>
-          {groupNames}
-        </ListGroup>
+        <Fade in={fadeFlag}>
+          <div>
+            <ListGroup>
+              {groupNames}
+            </ListGroup>
+          </div>
+        </Fade>
       </div>
     );
   }

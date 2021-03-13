@@ -30,4 +30,11 @@ router.post('/', async (req, res) => {
   res.send();
 });
 
+router.get('/getMemberEmails', async (req, res) => {
+  const memberEmails = await Users.findAll({
+    attributes: ['email'],
+  });
+  res.send(memberEmails);
+});
+
 module.exports = router;

@@ -3,7 +3,7 @@ import '../../App.css';
 import './GroupPage.css';
 import { Redirect } from 'react-router';
 import {
-  Container, Row, Col, Button, ListGroup, Modal,
+  Container, Row, Col, Button, ListGroup, Modal, Fade,
 } from 'react-bootstrap';
 import cookie from 'react-cookies';
 import axios from 'axios';
@@ -21,6 +21,7 @@ class GroupPage extends Component {
       redirectFlag: false,
       groupDatas: [],
       isModalOpen: false,
+      fadeFlag: false,
     };
   }
 
@@ -38,6 +39,7 @@ class GroupPage extends Component {
     const res = await axios.get('http://localhost:3001/groupPage', { params: { userId, groupId } });
     this.setState({
       groupDatas: [...res.data],
+      fadeFlag: true,
     });
   }
 
@@ -48,6 +50,7 @@ class GroupPage extends Component {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         groupDatas: [...res.data],
+        fadeFlag: true,
       });
     }
   }
@@ -63,31 +66,31 @@ class GroupPage extends Component {
       });
     }
     const {
-      redirectFlag, groupId, groupName, groupDatas, isModalOpen,
+      redirectFlag, groupId, groupName, groupDatas, isModalOpen, fadeFlag,
     } = this.state;
     const groupDataList = [];
     groupDatas.forEach((groupData) => {
       if (groupData.status === 'added') {
         groupDataList.push(
           <ListGroup.Item>
-            {`${groupData.expenseName} <> Added By: ${groupData.paidUserName} <> Amount: ${groupData.expenseAmount}$` }
+            {`${groupData.expenseName} -- Added By: ${groupData.paidUserName} -- Amount: ${groupData.expenseAmount}$` }
           </ListGroup.Item>,
         );
       }
       if (groupData.status === 'owes') {
         if (groupData.owedUserName === 'You') {
           groupDataList.push(
-            <ListGroup.Item>{`${groupData.expenseName} <> ${groupData.owedUserName} owe ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
+            <ListGroup.Item>{`${groupData.expenseName} -- ${groupData.owedUserName} owe ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
           );
         } else {
           groupDataList.push(
-            <ListGroup.Item>{`${groupData.expenseName} <> ${groupData.owedUserName} ${groupData.status} ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
+            <ListGroup.Item>{`${groupData.expenseName} -- ${groupData.owedUserName} ${groupData.status} ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
           );
         }
       }
       if (groupData.status === 'paid') {
         groupDataList.push(
-          <ListGroup.Item>{`${groupData.owedUserName} ${groupData.status} ${groupData.paidUserName} ${groupData.splitAmount}$ in ${groupData.expenseName} expense` }</ListGroup.Item>,
+          <ListGroup.Item>{`${groupData.expenseName} -- ${groupData.owedUserName}  ${groupData.status} ${groupData.paidUserName} ${groupData.splitAmount}$` }</ListGroup.Item>,
         );
       }
     });
@@ -106,7 +109,11 @@ class GroupPage extends Component {
                   <div id="grouppagetop">
                     <Row>
                       <Col lg={7}>
-                        <h3>{groupName}</h3>
+                        <Fade in={fadeFlag}>
+                          <div>
+                            <h3 id="grouptitle">{groupName}</h3>
+                          </div>
+                        </Fade>
                       </Col>
                       <Col><Button id="addanexpense" onClick={this.openModal}>Add an expense</Button></Col>
                       <Modal show={isModalOpen}>
@@ -123,9 +130,13 @@ class GroupPage extends Component {
                     </Row>
                   </div>
                   <Row>
-                    <ListGroup variant="flush">
-                      {groupDataList}
-                    </ListGroup>
+                    <Fade in={fadeFlag}>
+                      <div>
+                        <ListGroup variant="flush">
+                          {groupDataList}
+                        </ListGroup>
+                      </div>
+                    </Fade>
                   </Row>
                 </Col>
               </Row>

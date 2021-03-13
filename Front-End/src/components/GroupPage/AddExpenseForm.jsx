@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.css';
+import './AddExpenseForm.css';
 import axios from 'axios';
 import {
   Button, Form,
@@ -58,16 +59,20 @@ class AddExpenseForm extends Component {
     // eslint-disable-next-line no-unused-vars
     const { groupId } = this.state;
     return (
-      <Form method="post" onSubmit={this.submitExpense}>
-        <Form.Group controlId="formExpenseDescription">
-          <Form.Control onChange={this.handleChangeExpenseDescription} type="text" placeholder="Enter a description" />
-        </Form.Group>
+      <div>
+        <div className="expenseForm">
+          <Form method="post" onSubmit={this.submitExpense}>
+            <Form.Group controlId="formExpenseDescription">
+              <Form.Control onChange={this.handleChangeExpenseDescription} type="text" placeholder="Enter a description" />
+            </Form.Group>
 
-        <Form.Group controlId="formExpenseAmount">
-          <Form.Control onChange={this.handleChangeExpenseAmount} type="number" placeholder="$ 0.0" />
-        </Form.Group>
-        <Button variant="success" type="submit">Save</Button>
-      </Form>
+            <Form.Group controlId="formExpenseAmount">
+              <Form.Control onChange={this.handleChangeExpenseAmount} type="number" placeholder="$ 0.0" />
+            </Form.Group>
+            <Button id="submitExpenseButton" type="submit">Save</Button>
+          </Form>
+        </div>
+      </div>
     );
   }
 }

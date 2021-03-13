@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
       group_id: groupIds,
     },
     order: [
-      ['updatedAt', 'DESC'],
+      ['createdAt', 'DESC'],
     ],
   });
   const result = groupTransactions.map((groupTransaction) => {
@@ -80,7 +80,7 @@ router.get('/', async (req, res) => {
       });
     }
 
-    if (groupTransaction.dataValues.status === 1
+    if (groupTransaction.dataValues.status === true
       && groupTransaction.dataValues.paid_user_id === Number(req.query.userId)) {
       return ({
         expenseName: expenseNames[groupTransaction.dataValues.expense_id],
@@ -93,7 +93,7 @@ router.get('/', async (req, res) => {
       });
     }
 
-    if (groupTransaction.dataValues.status === 1
+    if (groupTransaction.dataValues.status === true
       && groupTransaction.dataValues.owed_user_id === Number(req.query.userId)) {
       return ({
         expenseName: expenseNames[groupTransaction.dataValues.expense_id],
@@ -106,7 +106,7 @@ router.get('/', async (req, res) => {
       });
     }
 
-    if (groupTransaction.dataValues.status === 1) {
+    if (groupTransaction.dataValues.status === true) {
       return ({
         expenseName: expenseNames[groupTransaction.dataValues.expense_id],
         expenseAmount: expenseAmount[groupTransaction.dataValues.expense_id],

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import './YouAreOwed.css';
 import {
-  ListGroup,
+  ListGroup, Fade,
 } from 'react-bootstrap';
 
 class YouAreOwed extends Component {
@@ -12,6 +12,7 @@ class YouAreOwed extends Component {
     this.state = {
       userId: localStorage.getItem('userId'),
       owed: [],
+      fadeFlag: false,
     };
   }
 
@@ -21,19 +22,24 @@ class YouAreOwed extends Component {
     const { owed } = this.state;
     this.setState({
       owed: owed.concat(res.data),
+      fadeFlag: true,
     });
   }
 
   render() {
-    const { owed } = this.state;
+    const { owed, fadeFlag } = this.state;
     const owedlist = owed.map((individualowed) => <ListGroup.Item>{`${individualowed.owedUserName} owes you ${individualowed.individualPaidAmount}$ in ${individualowed.groupName}` }</ListGroup.Item>);
     return (
       <div>
         <div className="youareowedcontainer">
-          <h4>You Are Owed</h4>
-          <ListGroup variant="flush">
-            {owedlist}
-          </ListGroup>
+          <h4 id="youareowedtitle">You Are Owed</h4>
+          <Fade in={fadeFlag}>
+            <div>
+              <ListGroup variant="flush">
+                {owedlist}
+              </ListGroup>
+            </div>
+          </Fade>
         </div>
       </div>
     );

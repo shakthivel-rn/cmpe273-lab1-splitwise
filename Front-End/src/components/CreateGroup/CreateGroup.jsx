@@ -4,7 +4,7 @@ import './CreateGroup.css';
 import { Redirect } from 'react-router';
 import cookie from 'react-cookies';
 import {
-  Container, Row, Col, Form, Figure, Button,
+  Container, Row, Col, Form, Figure, Button, Fade,
 } from 'react-bootstrap';
 import axios from 'axios';
 import Navigationbar from '../Navigationbar/Navigationbar';
@@ -18,12 +18,22 @@ class CreateGroup extends Component {
       redirectFlag: false,
       inputs: ['Enter Group Member Email'],
       memberEmails: [],
+      fadeFlag: false,
+      inputEmails: [],
     };
     this.appendInput = this.appendInput.bind(this);
     this.removeInput = this.removeInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeGroupName = this.handleChangeGroupName.bind(this);
     this.submitGroup = this.submitGroup.bind(this);
+  }
+
+  async componentDidMount() {
+    const res = await axios.get('http://localhost:3001/createGroup/getMemberEmails');
+    this.setState({
+      fadeFlag: true,
+      inputEmails: [...res.data],
+    });
   }
 
   handleChangeGroupName(e) {
@@ -76,11 +86,17 @@ class CreateGroup extends Component {
         redirectFlag: true,
       });
     }
-    const { redirectFlag, inputs } = this.state;
+    const {
+      redirectFlag, inputs, fadeFlag, inputEmails,
+    } = this.state;
+    const inputEmailsList = inputEmails.map((inputEmail) => (
+      <option value={inputEmail.email}>{inputEmail.email}</option>
+    ));
     const formInputs = inputs.map((input, i) => (
-      <Form.Group>
-        <Form.Control type="text" onChange={(e) => this.handleChange(e, i)} placeholder={input} required />
-      </Form.Group>
+      <Form.Control as="select" onChange={(e) => this.handleChange(e, i)} className="my-1 mr-sm-2" custom required>
+        {inputEmailsList}
+      </Form.Control>
+
     ));
     return (
       <div>
@@ -91,39 +107,43 @@ class CreateGroup extends Component {
             <h1>Create new group page:</h1>
             <div className="groupdetails">
               <Container>
-                <Row>
-                  <Col lg={3}>
-                    <Figure>
-                      <Figure.Image
-                        width={171}
-                        height={180}
-                        alt="171x180"
-                        src={`${window.location.origin}/group.png`}
-                      />
-                    </Figure>
-                    <Form>
-                      <Form.Group>
-                        <Form.File id="userimage" label="Change your avatar" />
-                      </Form.Group>
-                    </Form>
-                  </Col>
-                  <Col>
-                    <p>START A NEW GROUP</p>
-                    <p>My group shall be called...</p>
-                    <Form method="post" onSubmit={this.submitGroup}>
-                      <Form.Group controlId="formGroupName">
-                        <Form.Control type="text" onChange={this.handleChangeGroupName} name="groupname" placeholder="Enter Group Name" required />
-                      </Form.Group>
-                      <p>GROUP MEMBERS</p>
-                      {formInputs}
-                      <Button className="groupButtons" variant="success" onClick={this.appendInput}>Add Member</Button>
-                      <Button className="groupButtons" variant="success" onClick={this.removeInput}>Remove Member</Button>
-                      <Button className="groupButtons" variant="success" type="submit">
-                        Submit
-                      </Button>
-                    </Form>
-                  </Col>
-                </Row>
+                <Fade in={fadeFlag}>
+                  <div>
+                    <Row>
+                      <Col lg={3}>
+                        <Figure>
+                          <Figure.Image
+                            width={171}
+                            height={180}
+                            alt="171x180"
+                            src={`${window.location.origin}/group.png`}
+                          />
+                        </Figure>
+                        <Form>
+                          <Form.Group>
+                            <Form.File id="userimage" label="Change your avatar" />
+                          </Form.Group>
+                        </Form>
+                      </Col>
+                      <Col>
+                        <p>START A NEW GROUP</p>
+                        <p>My group shall be called...</p>
+                        <Form method="post" onSubmit={this.submitGroup}>
+                          <Form.Group controlId="formGroupName">
+                            <Form.Control type="text" onChange={this.handleChangeGroupName} name="groupname" placeholder="Enter Group Name" required />
+                          </Form.Group>
+                          <p>GROUP MEMBERS</p>
+                          {formInputs}
+                          <Button className="groupButtons" onClick={this.appendInput}>Add Member</Button>
+                          <Button className="groupButtons" onClick={this.removeInput}>Remove Member</Button>
+                          <Button className="groupButtons" type="submit">
+                            Submit
+                          </Button>
+                        </Form>
+                      </Col>
+                    </Row>
+                  </div>
+                </Fade>
               </Container>
             </div>
           </div>

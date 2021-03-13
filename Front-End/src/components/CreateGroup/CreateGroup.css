@@ -7,5 +7,7 @@
 }
 
 .groupButtons {
-    margin-right: 10px;;
+    margin-right: 10px;
+    background-color: #1cc29f;
+    border-color:  #1cc29f;
 }

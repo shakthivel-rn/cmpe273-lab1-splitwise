@@ -26,7 +26,7 @@ class Navigationbar extends Component {
       navLogin = (
         <Nav className="ml-auto">
           <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
+            <Dropdown.Toggle id="dropdown-basic">
               Menu
             </Dropdown.Toggle>
 
@@ -41,8 +41,8 @@ class Navigationbar extends Component {
     } else {
       navLogin = (
         <Nav className="ml-auto">
-          <Button variant="outline-success" className="mr-sm-2" href="/login">Sign In</Button>
-          <Button variant="success" href="/register">Sign Up</Button>
+          <Button id="navbarlogin" className="mr-sm-2 navbarbuttons" href="/login">Login</Button>
+          <Button className="navbarbuttons" href="/register">Sign Up</Button>
         </Nav>
       );
     }
@@ -50,7 +50,17 @@ class Navigationbar extends Component {
       <div>
         <Navbar id="nav-bar">
           <div className="container">
-            <Navbar.Brand id="nav-brand" href="/dashboard">Splitwise</Navbar.Brand>
+            <Navbar.Brand id="nav-brand" href="/dashboard">
+              <img
+                alt=""
+                src={`${window.location.origin}/splitwise-logo.png`}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+              />
+              {' '}
+              Splitwise
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             {navLogin}
           </div>

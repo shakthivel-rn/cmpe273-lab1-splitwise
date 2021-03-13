@@ -8,18 +8,24 @@
     border-radius: 5px;
 }
 
+#grouptitle {
+    font-size: 40px;
+}
+
 #addanexpense {
     background-color: rgb(255, 81, 0);
     border-color:   rgb(255, 81, 0);
 }
 
 #closemodal {
-    background-color: rgb(238, 238, 238);
-    border-color:   rgb(238, 238, 238);
-    color: black;
+    background-color: #373b3f;
+    border-color:   #373b3f;
+    color: rgb(238, 238, 238);
+    font-family: 'Montserrat', sans-serif;
 }
 
 #modaltop {
-    background-color: rgb(16, 173, 16);
+    background-color: #1cc29f;
+    font-family: 'Montserrat', sans-serif;
     color: white;
 }
