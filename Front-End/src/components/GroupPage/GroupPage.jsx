@@ -131,7 +131,7 @@ class GroupPage extends Component {
                   </div>
                   <Row>
                     <Fade in={fadeFlag}>
-                      <div>
+                      <div id="groupcontent">
                         <ListGroup variant="flush">
                           {groupDataList}
                         </ListGroup>

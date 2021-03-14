@@ -15,6 +15,8 @@ router.post('/', async (req, res) => {
     {
       user_id: req.body.userId,
       group_id: group.dataValues.group_id,
+      creator_id: req.body.userId,
+      invite_status: true,
     },
   );
   const members = await Users.findAll({
@@ -25,6 +27,8 @@ router.post('/', async (req, res) => {
   const finalMap = members.map((member) => ({
     user_id: member.dataValues.user_id,
     group_id: group.dataValues.group_id,
+    creator_id: req.body.userId,
+    invite_status: false,
   }));
   await UsersGroups.bulkCreate(finalMap);
   res.send();

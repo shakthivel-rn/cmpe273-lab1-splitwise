@@ -11,6 +11,7 @@ router.get('/getGroupNames', async (req, res) => {
   const memberGroups = await UsersGroups.findAll({
     where: {
       user_id: req.query.userId,
+      invite_status: true,
     },
   });
   const groupIds = memberGroups.map((memberGroup) => memberGroup.dataValues.group_id);

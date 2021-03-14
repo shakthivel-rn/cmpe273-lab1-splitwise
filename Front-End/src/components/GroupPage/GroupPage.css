@@ -12,6 +12,10 @@
     font-size: 40px;
 }
 
+#groupcontent {
+    margin-top: 10px;
+}
+
 #addanexpense {
     background-color: rgb(255, 81, 0);
     border-color:   rgb(255, 81, 0);

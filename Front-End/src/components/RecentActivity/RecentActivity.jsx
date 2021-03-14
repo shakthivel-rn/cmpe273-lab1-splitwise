@@ -76,7 +76,7 @@ class RecentActivity extends Component {
                 <Col>
                   <h3 id="recentactivitytitle">Recent Activity</h3>
                   <Fade in={fadeFlag}>
-                    <div>
+                    <div id="recentactivitycontent">
                       <ListGroup variant="flush">
                         {recentactivityloglist}
                       </ListGroup>

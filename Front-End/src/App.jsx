@@ -10,6 +10,7 @@ import Profilepage from './components/ProfilePage/Profilepage';
 import CreateGroup from './components/CreateGroup/CreateGroup';
 import RecentActivity from './components/RecentActivity/RecentActivity';
 import GroupPage from './components/GroupPage/GroupPage';
+import MyGroups from './components/MyGroups/MyGroups';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/recentactivity" component={RecentActivity} />
       <Route path="/grouppage" component={GroupPage} />
+      <Route path="/mygroups" component={MyGroups} />
     </div>
   );
 }

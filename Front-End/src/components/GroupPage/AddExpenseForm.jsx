@@ -50,7 +50,9 @@ class AddExpenseForm extends Component {
       expenseAmount,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/createExpense', data);
+    axios.post('http://localhost:3001/createExpense', data).catch(() => {
+      alert('Invite Status Pending From The Members');
+    });
   }
 
   render() {

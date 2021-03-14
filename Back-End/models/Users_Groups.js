@@ -18,6 +18,14 @@ module.exports = () => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
+    creator_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    invite_status: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
   });
   UsersGroups.associate = (models) => {
     UsersGroups.belongsTo(models.Users, { foreignKey: 'user_id' });

@@ -23,6 +23,18 @@ module.exports = {
         key: 'group_id',
       },
     },
+    creator_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'user_id',
+      },
+    },
+    invite_status: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
   }),

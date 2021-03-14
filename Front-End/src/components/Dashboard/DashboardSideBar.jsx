@@ -52,6 +52,9 @@ class DashboardSideBar extends Component {
           <ListGroup.Item>
             <Link to="/recentactivity">Recent Activity</Link>
           </ListGroup.Item>
+          <ListGroup.Item>
+            <Link to="/mygroups">My Groups</Link>
+          </ListGroup.Item>
         </ListGroup>
         <p id="grouptag">GROUPS</p>
         <Fade in={fadeFlag}>

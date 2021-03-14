@@ -38,7 +38,6 @@ function LandingPage() {
             </Fade>
           </Container>
         </div>
-        <footer><a href="https://storyset.com/work">Illustration by Freepik Storyset</a></footer>
       </div>
       <div className="custom-shape-divider-bottom-1615528068">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
