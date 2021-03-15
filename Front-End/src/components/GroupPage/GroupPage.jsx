@@ -15,7 +15,7 @@ class GroupPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: localStorage.getItem('userId'),
+      userId: sessionStorage.getItem('userId'),
       groupId: 0,
       groupName: '',
       redirectFlag: false,

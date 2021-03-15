@@ -10,7 +10,7 @@ class YouOwe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: localStorage.getItem('userId'),
+      userId: sessionStorage.getItem('userId'),
       youowes: [],
       fadeFlag: false,
     };

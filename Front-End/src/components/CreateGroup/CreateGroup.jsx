@@ -7,19 +7,23 @@ import {
   Container, Row, Col, Form, Figure, Button, Fade,
 } from 'react-bootstrap';
 import axios from 'axios';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class CreateGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: localStorage.getItem('userId'),
+      userId: sessionStorage.getItem('userId'),
       groupName: '',
       redirectFlag: false,
       inputs: ['Enter Group Member Email'],
       memberEmails: [],
       fadeFlag: false,
       inputEmails: [],
+      invalidGroupNameFlag: false,
+      groupCreatedFlag: false,
+      redirectPage: false,
     };
     this.appendInput = this.appendInput.bind(this);
     this.removeInput = this.removeInput.bind(this);
@@ -52,14 +56,26 @@ class CreateGroup extends Component {
 
   submitGroup = (e) => {
     e.preventDefault();
-    const { memberEmails, groupName, userId } = this.state;
+    const {
+      memberEmails, groupName, userId,
+    } = this.state;
     const data = {
       userId,
       memberEmails,
       groupName,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/createGroup', data);
+    axios.post('http://localhost:3001/createGroup', data)
+      .then(() => {
+        this.setState({
+          groupCreatedFlag: true,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          invalidGroupNameFlag: true,
+        });
+      });
   }
 
   appendInput() {
@@ -87,20 +103,45 @@ class CreateGroup extends Component {
       });
     }
     const {
-      redirectFlag, inputs, fadeFlag, inputEmails,
+      redirectFlag, inputs, fadeFlag, inputEmails, invalidGroupNameFlag,
+      groupCreatedFlag, redirectPage,
     } = this.state;
     const inputEmailsList = inputEmails.map((inputEmail) => (
       <option value={inputEmail.email}>{inputEmail.email}</option>
     ));
     const formInputs = inputs.map((input, i) => (
       <Form.Control as="select" onChange={(e) => this.handleChange(e, i)} className="my-1 mr-sm-2" custom required>
+        <option>Choose Member Email</option>
         {inputEmailsList}
       </Form.Control>
 
     ));
     return (
       <div>
+        {groupCreatedFlag ? (
+          <SweetAlert
+            success
+            title="Group created"
+            onConfirm={() => {
+              this.setState({
+                redirectPage: <Redirect to="/dashboard" />,
+              });
+            }}
+          />
+        ) : null}
+        {invalidGroupNameFlag ? (
+          <SweetAlert
+            warning
+            title="Groupname already exist"
+            onConfirm={() => {
+              this.setState({
+                invalidGroupNameFlag: false,
+              });
+            }}
+          />
+        ) : null}
         {redirectFlag ? <Redirect to="/" /> : null}
+        {redirectPage}
         <Navigationbar />
         <div className="container">
           <div className="creategroup">

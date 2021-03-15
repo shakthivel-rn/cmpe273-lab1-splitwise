@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { propTypes } from 'react-bootstrap/esm/Image';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class Login extends Component {
@@ -21,6 +22,7 @@ class Login extends Component {
       password: '',
       redirectFlag: false,
       fadeFlag: false,
+      invalidLoginFlag: false,
     };
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -57,20 +59,33 @@ class Login extends Component {
       .then((response) => {
         const { onSubmitUser } = this.props;
         onSubmitUser(response.data);
-        localStorage.setItem('userId', response.data.id);
+        sessionStorage.setItem('userId', response.data.id);
         this.setState({
           redirectFlag: true,
         });
       })
       .catch(() => {
-        alert('Invalid Username or Password');
+        this.setState({
+          invalidLoginFlag: true,
+        });
       });
   }
 
   render() {
-    const { redirectFlag, fadeFlag } = this.state;
+    const { redirectFlag, fadeFlag, invalidLoginFlag } = this.state;
     return (
       <div>
+        {invalidLoginFlag ? (
+          <SweetAlert
+            warning
+            title="Invalid username or password"
+            onConfirm={() => {
+              this.setState({
+                invalidLoginFlag: false,
+              });
+            }}
+          />
+        ) : null}
         {redirectFlag ? <Redirect to="/dashboard" /> : null}
         <Navigationbar />
         <div className="container">

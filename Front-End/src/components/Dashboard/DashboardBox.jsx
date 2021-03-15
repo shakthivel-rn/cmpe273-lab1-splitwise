@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 function Dashboardbox() {
-  const [userId] = useState(localStorage.getItem('userId'));
+  const [userId] = useState(sessionStorage.getItem('userId'));
   const [totalBalance, setTotalBalance] = useState(0);
   const [youOwe, setYouOwe] = useState(0);
   const [youAreOwed, setYouAreOwed] = useState(0);

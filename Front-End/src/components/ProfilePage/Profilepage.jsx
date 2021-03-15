@@ -7,12 +7,13 @@ import {
   Container, Row, Col, Form, Button, Figure, Fade,
 } from 'react-bootstrap';
 import axios from 'axios';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class Profilepage extends Component {
   constructor(props) {
     super(props);
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
     this.state = {
       userId,
       redirectFlag: false,
@@ -49,6 +50,8 @@ class Profilepage extends Component {
       timezone: res.data[0].timezone ? res.data[0].timezone : 'Choose Timezone',
       language: res.data[0].language ? res.data[0].language : 'Choose Language',
       fadeFlag: true,
+      submitFlag: false,
+      errorFlag: false,
     });
   }
 
@@ -97,7 +100,12 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editName', data);
+    axios.post('http://localhost:3001/profilePage/editName', data)
+      .then(() => {
+        this.setState({
+          submitFlag: true,
+        });
+      });
   }
 
   editEmail = (e) => {
@@ -111,10 +119,14 @@ class Profilepage extends Component {
     axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/profilePage/editEmail', data)
       .then(() => {
-        alert('Edit Successfull');
+        this.setState({
+          submitFlag: true,
+        });
       })
       .catch(() => {
-        alert('The Email already exist');
+        this.setState({
+          errorFlag: true,
+        });
       });
   }
 
@@ -127,7 +139,12 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editPhoneNumber', data);
+    axios.post('http://localhost:3001/profilePage/editPhoneNumber', data)
+      .then(() => {
+        this.setState({
+          submitFlag: true,
+        });
+      });
   }
 
   editDefaultCurrency = (e) => {
@@ -139,7 +156,12 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editDefaultCurrency', data);
+    axios.post('http://localhost:3001/profilePage/editDefaultCurrency', data)
+      .then(() => {
+        this.setState({
+          submitFlag: true,
+        });
+      });
   }
 
   editTimeZone = (e) => {
@@ -151,7 +173,12 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editTimeZone', data);
+    axios.post('http://localhost:3001/profilePage/editTimeZone', data)
+      .then(() => {
+        this.setState({
+          submitFlag: true,
+        });
+      });
   }
 
   editLanguage = (e) => {
@@ -163,7 +190,12 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editLanguage', data);
+    axios.post('http://localhost:3001/profilePage/editLanguage', data)
+      .then(() => {
+        this.setState({
+          submitFlag: true,
+        });
+      });
   }
 
   render() {
@@ -173,11 +205,33 @@ class Profilepage extends Component {
       });
     }
     const {
-      name, email, phone, defaultcurrency, timezone, language, fadeFlag,
+      name, email, phone, defaultcurrency, timezone, language, fadeFlag, submitFlag, errorFlag,
     } = this.state;
     const { redirectFlag } = this.state;
     return (
       <div>
+        {submitFlag ? (
+          <SweetAlert
+            success
+            title="Edit successfully done"
+            onConfirm={() => {
+              this.setState({
+                submitFlag: false,
+              });
+            }}
+          />
+        ) : null}
+        {errorFlag ? (
+          <SweetAlert
+            warning
+            title="Email already exists"
+            onConfirm={() => {
+              this.setState({
+                errorFlag: false,
+              });
+            }}
+          />
+        ) : null}
         {redirectFlag ? <Redirect to="/" /> : null}
         <Navigationbar />
         <div className="container">

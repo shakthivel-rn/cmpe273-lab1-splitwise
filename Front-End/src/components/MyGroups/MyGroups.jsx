@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap';
 import cookie from 'react-cookies';
 import axios from 'axios';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Navigationbar from '../Navigationbar/Navigationbar';
 import DashboardSideBar from '../Dashboard/DashboardSideBar';
 
@@ -14,10 +15,12 @@ class MyGroups extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: localStorage.getItem('userId'),
+      userId: sessionStorage.getItem('userId'),
       redirectFlag: false,
       inviteList: [],
       fadeFlag: false,
+      inviteFlag: false,
+      redirectPage: '',
     };
     this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
   }
@@ -25,9 +28,8 @@ class MyGroups extends Component {
   async componentDidMount() {
     const { userId } = this.state;
     const res = await axios.get('http://localhost:3001/myGroups', { params: { userId } });
-    const { inviteList } = this.state;
     this.setState({
-      inviteList: inviteList.concat(res.data),
+      inviteList: [...res.data],
       fadeFlag: true,
     });
   }
@@ -39,7 +41,12 @@ class MyGroups extends Component {
       groupId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/myGroups/acceptGroupInvite', data);
+    axios.post('http://localhost:3001/myGroups/acceptGroupInvite', data)
+      .then(() => {
+        this.setState({
+          inviteFlag: true,
+        });
+      });
   }
 
   render() {
@@ -48,7 +55,9 @@ class MyGroups extends Component {
         redirectFlag: true,
       });
     }
-    const { redirectFlag, inviteList, fadeFlag } = this.state;
+    const {
+      redirectFlag, inviteList, fadeFlag, inviteFlag, redirectPage,
+    } = this.state;
     const inviteListDetails = [];
     inviteList.forEach((inviteListItem) => {
       inviteListDetails.push(
@@ -66,7 +75,19 @@ class MyGroups extends Component {
     });
     return (
       <div>
+        {inviteFlag ? (
+          <SweetAlert
+            success
+            title="Invite accepted"
+            onConfirm={() => {
+              this.setState({
+                redirectPage: <Redirect to="/dashboard" />,
+              });
+            }}
+          />
+        ) : null}
         {redirectFlag ? <Redirect to="/" /> : null}
+        {redirectPage}
         <Navigationbar />
         <div className="container">
           <div className="mygroups">

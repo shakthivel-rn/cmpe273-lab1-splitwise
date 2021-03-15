@@ -46,7 +46,7 @@ router.post('/acceptGroupInvite', async (req, res) => {
       group_id: req.body.groupId,
     },
   });
-  res.send();
+  res.sendStatus(200);
 });
 
 module.exports = router;

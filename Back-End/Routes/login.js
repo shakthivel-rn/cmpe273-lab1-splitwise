@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
     if (user.dataValues.email === req.body.email) {
       const encryptedPassword = encrypt(req.body.password);
       if (user.dataValues.password === encryptedPassword) {
-        res.cookie('cookie', 'admin', { maxAge: 900000, httpOnly: false, path: '/' });
+        res.cookie('cookie', user.dataValues.user_id, { maxAge: 900000, httpOnly: false, path: '/' });
         req.session.user = user;
         status = 200;
         userData = {

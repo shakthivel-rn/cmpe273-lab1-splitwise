@@ -8,6 +8,7 @@ import {
   Form, Button, Container, Col, Row, Figure, Fade,
 } from 'react-bootstrap';
 import { propTypes } from 'react-bootstrap/esm/Image';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Navigationbar from '../Navigationbar/Navigationbar';
 
 class Register extends Component {
@@ -19,6 +20,7 @@ class Register extends Component {
       password: '',
       redirectFlag: false,
       fadeFlag: false,
+      invalidRegisterFlag: false,
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -63,20 +65,33 @@ class Register extends Component {
       .then((response) => {
         const { onSubmitUser } = this.props;
         onSubmitUser(response.data);
-        localStorage.setItem('userId', response.data.id);
+        sessionStorage.setItem('userId', response.data.id);
         this.setState({
           redirectFlag: true,
         });
       })
       .catch(() => {
-        alert('Invalid Registration');
+        this.setState({
+          invalidRegisterFlag: true,
+        });
       });
   }
 
   render() {
-    const { redirectFlag, fadeFlag } = this.state;
+    const { redirectFlag, fadeFlag, invalidRegisterFlag } = this.state;
     return (
       <div>
+        {invalidRegisterFlag ? (
+          <SweetAlert
+            warning
+            title="Email already exists"
+            onConfirm={() => {
+              this.setState({
+                invalidRegisterFlag: false,
+              });
+            }}
+          />
+        ) : null}
         {redirectFlag ? <Redirect to="/dashboard" /> : null}
         <Navigationbar />
         <div className="container">
