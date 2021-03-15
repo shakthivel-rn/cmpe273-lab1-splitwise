@@ -6,20 +6,15 @@ const Transactions = require('../models/Transactions')();
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  let allowCreateExpense = true;
   let status = 500;
   const groupMembers = await UsersGroups.findAll({
     where: {
       group_id: req.body.groupId,
+      invite_status: true,
     },
   });
-  const inviteStatus = groupMembers.map((groupMember) => (
-    groupMember.dataValues.invite_status
-  ));
-  if (inviteStatus.includes(false)) {
-    allowCreateExpense = false;
-  }
-  if (allowCreateExpense) {
+  const groupMembersList = groupMembers.map((groupMember) => groupMember.user_id);
+  if (groupMembersList.length > 1) {
     const expense = await Expenses.create({
       group_id: req.body.groupId,
       expense_description: req.body.expenseDescription,
@@ -44,8 +39,6 @@ router.post('/', async (req, res) => {
           split_amount: splitAmount,
           status: false,
         }));
-    console.log(typeof req.body.userId);
-    console.log(typeof groupMembers[0].dataValues.user_id);
     await Transactions.bulkCreate(finalMap);
     status = 200;
   }

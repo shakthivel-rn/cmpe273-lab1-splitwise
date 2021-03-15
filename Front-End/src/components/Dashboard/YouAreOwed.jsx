@@ -35,9 +35,11 @@ class YouAreOwed extends Component {
           <h4 id="youareowedtitle">You Are Owed</h4>
           <Fade in={fadeFlag}>
             <div>
-              <ListGroup variant="flush">
-                {owedlist}
-              </ListGroup>
+              {owedlist.length === 0 ? <p>You are not owed anything</p> : (
+                <ListGroup variant="flush">
+                  {owedlist}
+                </ListGroup>
+              )}
             </div>
           </Fade>
         </div>

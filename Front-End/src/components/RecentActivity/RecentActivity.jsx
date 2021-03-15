@@ -14,7 +14,7 @@ class RecentActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: localStorage.getItem('userId'),
+      userId: sessionStorage.getItem('userId'),
       redirectFlag: false,
       recentactivitylogs: [],
       fadeFlag: false,
@@ -77,9 +77,11 @@ class RecentActivity extends Component {
                   <h3 id="recentactivitytitle">Recent Activity</h3>
                   <Fade in={fadeFlag}>
                     <div id="recentactivitycontent">
-                      <ListGroup variant="flush">
-                        {recentactivityloglist}
-                      </ListGroup>
+                      {recentactivityloglist.length === 0 ? <p>No recent activity</p> : (
+                        <ListGroup variant="flush">
+                          {recentactivityloglist}
+                        </ListGroup>
+                      )}
                     </div>
                   </Fade>
                 </Col>

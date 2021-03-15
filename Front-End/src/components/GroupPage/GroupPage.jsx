@@ -72,7 +72,7 @@ class GroupPage extends Component {
     groupDatas.forEach((groupData) => {
       if (groupData.status === 'added') {
         groupDataList.push(
-          <ListGroup.Item>
+          <ListGroup.Item id="expensecreated">
             {`${groupData.expenseName} -- Added By: ${groupData.paidUserName} -- Amount: ${groupData.expenseAmount}$` }
           </ListGroup.Item>,
         );
@@ -132,9 +132,11 @@ class GroupPage extends Component {
                   <Row>
                     <Fade in={fadeFlag}>
                       <div id="groupcontent">
-                        <ListGroup variant="flush">
-                          {groupDataList}
-                        </ListGroup>
+                        {groupDataList.length === 0 ? <p>No expense created</p> : (
+                          <ListGroup variant="flush">
+                            {groupDataList}
+                          </ListGroup>
+                        )}
                       </div>
                     </Fade>
                   </Row>
