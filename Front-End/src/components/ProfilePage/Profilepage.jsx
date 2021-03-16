@@ -100,7 +100,7 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editName', data)
+    axios.put('http://localhost:3001/profilePage/editName', data)
       .then(() => {
         this.setState({
           submitFlag: true,
@@ -117,7 +117,7 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editEmail', data)
+    axios.put('http://localhost:3001/profilePage/editEmail', data)
       .then(() => {
         this.setState({
           submitFlag: true,
@@ -139,7 +139,7 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editPhoneNumber', data)
+    axios.put('http://localhost:3001/profilePage/editPhoneNumber', data)
       .then(() => {
         this.setState({
           submitFlag: true,
@@ -156,7 +156,7 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editDefaultCurrency', data)
+    axios.put('http://localhost:3001/profilePage/editDefaultCurrency', data)
       .then(() => {
         this.setState({
           submitFlag: true,
@@ -173,7 +173,7 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editTimeZone', data)
+    axios.put('http://localhost:3001/profilePage/editTimeZone', data)
       .then(() => {
         this.setState({
           submitFlag: true,
@@ -190,7 +190,7 @@ class Profilepage extends Component {
       userId,
     };
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/profilePage/editLanguage', data)
+    axios.put('http://localhost:3001/profilePage/editLanguage', data)
       .then(() => {
         this.setState({
           submitFlag: true,

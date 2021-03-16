@@ -126,7 +126,7 @@ router.get('/', async (req, res) => {
       status: 'owes',
     });
   });
-  res.send(result);
+  res.status(200).send(result);
 });
 
 module.exports = router;

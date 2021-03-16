@@ -52,3 +52,5 @@ app.use('/myGroups', myGroups);
 app.listen(3001, () => {
   console.log('Server listening on port 3001');
 });
+
+module.exports = app;

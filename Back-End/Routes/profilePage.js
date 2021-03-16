@@ -13,7 +13,7 @@ router.get('/getUserDetails', async (req, res) => {
   res.send(user);
 });
 
-router.post('/editName', async (req, res) => {
+router.put('/editName', async (req, res) => {
   await Users.update({ name: req.body.name }, {
     where: {
       user_id: req.body.userId,
@@ -22,7 +22,7 @@ router.post('/editName', async (req, res) => {
   res.send();
 });
 
-router.post('/editEmail', async (req, res) => {
+router.put('/editEmail', async (req, res) => {
   let status = 500;
   const userEmail = await Users.findAll({
     where: {
@@ -43,7 +43,7 @@ router.post('/editEmail', async (req, res) => {
   res.sendStatus(status);
 });
 
-router.post('/editPhoneNumber', async (req, res) => {
+router.put('/editPhoneNumber', async (req, res) => {
   await Users.update({ phone_number: req.body.phone }, {
     where: {
       user_id: req.body.userId,
@@ -52,7 +52,7 @@ router.post('/editPhoneNumber', async (req, res) => {
   res.send();
 });
 
-router.post('/editDefaultCurrency', async (req, res) => {
+router.put('/editDefaultCurrency', async (req, res) => {
   await Users.update({ default_currency: req.body.defaultcurrency }, {
     where: {
       user_id: req.body.userId,
@@ -61,7 +61,7 @@ router.post('/editDefaultCurrency', async (req, res) => {
   res.send();
 });
 
-router.post('/editTimeZone', async (req, res) => {
+router.put('/editTimeZone', async (req, res) => {
   await Users.update({ timezone: req.body.timezone }, {
     where: {
       user_id: req.body.userId,
@@ -70,7 +70,7 @@ router.post('/editTimeZone', async (req, res) => {
   res.send();
 });
 
-router.post('/editLanguage', async (req, res) => {
+router.put('/editLanguage', async (req, res) => {
   await Users.update({ language: req.body.language }, {
     where: {
       user_id: req.body.userId,
