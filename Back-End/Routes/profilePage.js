@@ -9,7 +9,6 @@ router.get('/getUserDetails', async (req, res) => {
       user_id: req.query.userId,
     },
   });
-  console.log(user);
   res.send(user);
 });
 
@@ -29,7 +28,6 @@ router.put('/editEmail', async (req, res) => {
       email: req.body.email,
     },
   });
-  console.log(userEmail);
   if (userEmail.length === 0) {
     await Users.update({ email: req.body.email }, {
       where: {

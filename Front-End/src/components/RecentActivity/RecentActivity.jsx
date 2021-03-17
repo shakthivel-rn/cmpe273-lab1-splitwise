@@ -15,9 +15,9 @@ class RecentActivity extends Component {
     super(props);
     this.state = {
       userId: sessionStorage.getItem('userId'),
-      redirectFlag: false,
       recentactivitylogs: [],
       fadeFlag: false,
+      loadedCookie: cookie.load('cookie'),
     };
   }
 
@@ -32,12 +32,8 @@ class RecentActivity extends Component {
   }
 
   render() {
-    if (!cookie.load('cookie')) {
-      this.setState({
-        redirectFlag: true,
-      });
-    }
-    const { redirectFlag, recentactivitylogs, fadeFlag } = this.state;
+    const { recentactivitylogs, fadeFlag, loadedCookie } = this.state;
+
     const recentactivityloglist = [];
     recentactivitylogs.forEach((recentactivitylog) => {
       if (recentactivitylog.status === 'added') {
@@ -64,7 +60,7 @@ class RecentActivity extends Component {
     });
     return (
       <div>
-        {redirectFlag ? <Redirect to="/" /> : null}
+        {!loadedCookie ? <Redirect to="/" /> : null }
         <Navigationbar />
         <div className="container">
           <div className="recentactivity">

@@ -18,10 +18,10 @@ class GroupPage extends Component {
       userId: sessionStorage.getItem('userId'),
       groupId: 0,
       groupName: '',
-      redirectFlag: false,
       groupDatas: [],
       isModalOpen: false,
       fadeFlag: false,
+      loadedCookie: cookie.load('cookie'),
     };
   }
 
@@ -60,13 +60,8 @@ class GroupPage extends Component {
   closeModal = () => this.setState({ isModalOpen: false });
 
   render() {
-    if (!cookie.load('cookie')) {
-      this.setState({
-        redirectFlag: true,
-      });
-    }
     const {
-      redirectFlag, groupId, groupName, groupDatas, isModalOpen, fadeFlag,
+      groupId, groupName, groupDatas, isModalOpen, fadeFlag, loadedCookie,
     } = this.state;
     const groupDataList = [];
     groupDatas.forEach((groupData) => {
@@ -96,7 +91,7 @@ class GroupPage extends Component {
     });
     return (
       <div>
-        {redirectFlag ? <Redirect to="/" /> : null}
+        {!loadedCookie ? <Redirect to="/" /> : null}
         <Navigationbar />
         <div className="container">
           <div className="groupcontainer">

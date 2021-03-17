@@ -16,7 +16,6 @@ class Profilepage extends Component {
     const userId = sessionStorage.getItem('userId');
     this.state = {
       userId,
-      redirectFlag: false,
       name: 'Your Name',
       email: 'Your Email',
       phone: 'Your Phonenumber',
@@ -24,6 +23,7 @@ class Profilepage extends Component {
       timezone: 'Choose Timezone',
       language: 'Choose Language',
       fadeFlag: false,
+      loadedCookie: cookie.load('cookie'),
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -93,8 +93,7 @@ class Profilepage extends Component {
 
   editName = (e) => {
     e.preventDefault();
-    const { name } = this.state;
-    const userId = 1;
+    const { name, userId } = this.state;
     const data = {
       name,
       userId,
@@ -110,8 +109,7 @@ class Profilepage extends Component {
 
   editEmail = (e) => {
     e.preventDefault();
-    const { email } = this.state;
-    const userId = 1;
+    const { email, userId } = this.state;
     const data = {
       email,
       userId,
@@ -132,8 +130,7 @@ class Profilepage extends Component {
 
   editPhone = (e) => {
     e.preventDefault();
-    const { phone } = this.state;
-    const userId = 1;
+    const { phone, userId } = this.state;
     const data = {
       phone,
       userId,
@@ -149,8 +146,7 @@ class Profilepage extends Component {
 
   editDefaultCurrency = (e) => {
     e.preventDefault();
-    const { defaultcurrency } = this.state;
-    const userId = 1;
+    const { defaultcurrency, userId } = this.state;
     const data = {
       defaultcurrency,
       userId,
@@ -166,8 +162,7 @@ class Profilepage extends Component {
 
   editTimeZone = (e) => {
     e.preventDefault();
-    const { timezone } = this.state;
-    const userId = 1;
+    const { timezone, userId } = this.state;
     const data = {
       timezone,
       userId,
@@ -183,8 +178,7 @@ class Profilepage extends Component {
 
   editLanguage = (e) => {
     e.preventDefault();
-    const { language } = this.state;
-    const userId = 1;
+    const { language, userId } = this.state;
     const data = {
       language,
       userId,
@@ -199,15 +193,10 @@ class Profilepage extends Component {
   }
 
   render() {
-    if (!cookie.load('cookie')) {
-      this.setState({
-        redirectFlag: true,
-      });
-    }
     const {
-      name, email, phone, defaultcurrency, timezone, language, fadeFlag, submitFlag, errorFlag,
+      name, email, phone, defaultcurrency, timezone, language,
+      fadeFlag, submitFlag, errorFlag, loadedCookie,
     } = this.state;
-    const { redirectFlag } = this.state;
     return (
       <div>
         {submitFlag ? (
@@ -232,7 +221,7 @@ class Profilepage extends Component {
             }}
           />
         ) : null}
-        {redirectFlag ? <Redirect to="/" /> : null}
+        { !loadedCookie ? <Redirect to="/" /> : null }
         <Navigationbar />
         <div className="container">
           <div className="profilepage">

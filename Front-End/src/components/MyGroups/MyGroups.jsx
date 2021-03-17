@@ -16,7 +16,6 @@ class MyGroups extends Component {
     super(props);
     this.state = {
       userId: sessionStorage.getItem('userId'),
-      redirectFlag: false,
       inviteList: [],
       fadeFlag: false,
       inviteFlag: false,
@@ -24,6 +23,7 @@ class MyGroups extends Component {
       groupList: [],
       leaveGroupFlag: false,
       errorLeaveGroupFlag: false,
+      loadedCookie: cookie.load('cookie'),
     };
     this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
   }
@@ -77,14 +77,9 @@ class MyGroups extends Component {
   }
 
   render() {
-    if (!cookie.load('cookie')) {
-      this.setState({
-        redirectFlag: true,
-      });
-    }
     const {
-      redirectFlag, inviteList, fadeFlag, inviteFlag, redirectPage,
-      groupList, leaveGroupFlag, errorLeaveGroupFlag, userId,
+      inviteList, fadeFlag, inviteFlag, redirectPage,
+      groupList, leaveGroupFlag, errorLeaveGroupFlag, userId, loadedCookie,
     } = this.state;
     const groupListDetails = [];
     const inviteListDetails = [];
@@ -166,7 +161,7 @@ class MyGroups extends Component {
             }}
           />
         ) : null}
-        {redirectFlag ? <Redirect to="/" /> : null}
+        {!loadedCookie ? <Redirect to="/" /> : null}
         {redirectPage}
         <Navigationbar />
         <div className="container">

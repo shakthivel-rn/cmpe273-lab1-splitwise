@@ -16,7 +16,6 @@ class CreateGroup extends Component {
     this.state = {
       userId: sessionStorage.getItem('userId'),
       groupName: '',
-      redirectFlag: false,
       inputs: ['Enter Group Member Email'],
       memberEmails: [],
       fadeFlag: false,
@@ -24,6 +23,7 @@ class CreateGroup extends Component {
       invalidGroupNameFlag: false,
       groupCreatedFlag: false,
       redirectPage: false,
+      loadedCookie: cookie.load('cookie'),
     };
     this.appendInput = this.appendInput.bind(this);
     this.removeInput = this.removeInput.bind(this);
@@ -97,14 +97,9 @@ class CreateGroup extends Component {
   }
 
   render() {
-    if (!cookie.load('cookie')) {
-      this.setState({
-        redirectFlag: true,
-      });
-    }
     const {
-      redirectFlag, inputs, fadeFlag, inputEmails, invalidGroupNameFlag,
-      groupCreatedFlag, redirectPage,
+      inputs, fadeFlag, inputEmails, invalidGroupNameFlag,
+      groupCreatedFlag, redirectPage, loadedCookie,
     } = this.state;
     const inputEmailsList = inputEmails.map((inputEmail) => (
       <option value={inputEmail.email}>{inputEmail.email}</option>
@@ -140,7 +135,7 @@ class CreateGroup extends Component {
             }}
           />
         ) : null}
-        {redirectFlag ? <Redirect to="/" /> : null}
+        {!loadedCookie ? <Redirect to="/" /> : null}
         {redirectPage}
         <Navigationbar />
         <div className="container">

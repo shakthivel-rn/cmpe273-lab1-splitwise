@@ -16,20 +16,15 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirectFlag: false,
+      loadeCookie: cookie.load('cookie'),
     };
   }
 
   render() {
-    if (!cookie.load('cookie')) {
-      this.setState({
-        redirectFlag: true,
-      });
-    }
-    const { redirectFlag } = this.state;
+    const { loadeCookie } = this.state;
     return (
       <div>
-        {redirectFlag ? <Redirect to="/" /> : null}
+        {!loadeCookie ? <Redirect to="/" /> : null}
         <Navigationbar />
         <div className="container">
           <div className="dashboard">

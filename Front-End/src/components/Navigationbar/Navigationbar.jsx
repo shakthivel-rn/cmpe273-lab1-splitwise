@@ -5,24 +5,28 @@ import cookie from 'react-cookies';
 import {
   Navbar, Nav, Button, Dropdown,
 } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { propTypes } from 'react-bootstrap/esm/Image';
+// import { connect } from 'react-redux';
+// import { propTypes } from 'react-bootstrap/esm/Image';
 
 class Navigationbar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loadedCookie: cookie.load('cookie'),
+    };
     this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout = () => {
     cookie.remove('cookie', { path: '/' });
-    const { onLogoutUser } = this.props;
-    onLogoutUser();
+    // const { onLogoutUser } = this.props;
+    // onLogoutUser();
   }
 
   render() {
     let navLogin = null;
-    if (cookie.load('cookie')) {
+    const { loadedCookie } = this.state;
+    if (loadedCookie) {
       navLogin = (
         <Nav className="ml-auto">
           <Dropdown>
@@ -70,7 +74,7 @@ class Navigationbar extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+/* const mapDispatchToProps = (dispatch) => ({
   onLogoutUser: () => dispatch({ type: 'REMOVE_USER' }),
 });
 
@@ -80,5 +84,5 @@ Navigationbar.defaultProps = {
 
 Navigationbar.propTypes = {
   onLogoutUser: propTypes.func,
-};
-export default connect(mapDispatchToProps)(Navigationbar);
+}; */
+export default Navigationbar;
