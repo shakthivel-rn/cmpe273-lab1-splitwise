@@ -24,6 +24,7 @@ class Profilepage extends Component {
       language: 'Choose Language',
       fadeFlag: false,
       loadedCookie: cookie.load('cookie'),
+      imageURL: null,
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -31,6 +32,7 @@ class Profilepage extends Component {
     this.handleChangeDefautCurrency = this.handleChangeDefautCurrency.bind(this);
     this.handleChangeTimezone = this.handleChangeTimezone.bind(this);
     this.handleChangeLanguage = this.handleChangeLanguage.bind(this);
+    this.handleImage = this.handleImage.bind(this);
     this.editName = this.editName.bind(this);
     this.editEmail = this.editEmail.bind(this);
     this.editPhone = this.editPhone.bind(this);
@@ -52,6 +54,16 @@ class Profilepage extends Component {
       fadeFlag: true,
       submitFlag: false,
       errorFlag: false,
+      imageURL: localStorage.getItem(`userImage${userId}`),
+    });
+  }
+
+  handleImage = (e) => {
+    const { userId } = this.state;
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.addEventListener('load', () => {
+      localStorage.setItem(`userImage${userId}`, reader.result);
     });
   }
 
@@ -195,7 +207,7 @@ class Profilepage extends Component {
   render() {
     const {
       name, email, phone, defaultcurrency, timezone, language,
-      fadeFlag, submitFlag, errorFlag, loadedCookie,
+      fadeFlag, submitFlag, errorFlag, loadedCookie, imageURL,
     } = this.state;
     return (
       <div>
@@ -237,12 +249,12 @@ class Profilepage extends Component {
                             width={171}
                             height={180}
                             alt="171x180"
-                            src={`${window.location.origin}/dummy_user.png`}
+                            src={imageURL === null ? `${window.location.origin}/dummy_user.png` : imageURL}
                           />
                         </Figure>
                         <Form>
                           <Form.Group>
-                            <Form.File id="userimage" label="Change your avatar" />
+                            <Form.File id="userimage" label="Change your avatar" onChange={this.handleImage} />
                           </Form.Group>
                         </Form>
                       </Col>

@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
       group_id: groupIds,
     },
     order: [
-      ['createdAt', 'DESC'],
+      ['updatedAt', 'DESC'],
     ],
   });
   const result = groupTransactions.map((groupTransaction) => {
